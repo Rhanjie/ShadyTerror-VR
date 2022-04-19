@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: 6260389476474903853
     second: Sphere.002|Sphere.002Action
+  - first:
+      74: 7782115438575477138
+    second: Sphere.002|PlaneAction
   externalObjects:
   - first:
       type: UnityEngine:Material
