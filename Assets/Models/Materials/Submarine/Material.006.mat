@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Material.001
+  m_Name: Material.006
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -108,12 +108,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.33332723, g: 0.33332723, b: 0.33332723, a: 1}
-    - _Color: {r: 0.3333272, g: 0.3333272, b: 0.3333272, a: 1}
+    - _BaseColor: {r: 0.10665978, g: 0.10151384, b: 0.10634313, a: 1}
+    - _Color: {r: 0.10665975, g: 0.101513796, b: 0.1063431, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &2659311273288869774
+--- !u!114 &3598606217709401434
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

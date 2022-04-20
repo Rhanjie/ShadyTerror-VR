@@ -18,6 +18,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: GLASS.002
+    second: {fileID: 2100000, guid: 6298579c43e81224f9707f3890cb1e41, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: a382bfb7fd0c94d45bc66edb208b2965, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Material.001
     second: {fileID: 2100000, guid: a5ed3b42d7351ca4a94633f31456fbfe, type: 2}
   - first:
@@ -40,6 +50,21 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material.005
     second: {fileID: 2100000, guid: 4235d5769e4fbbd4d9a168fdeeb55f04, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: 0af01e827fa3a2b4abefefa7b042a664, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: 0f1957e50a7e01a438e579137bbb5789, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.008
+    second: {fileID: 2100000, guid: 67fc2a4d4a555b443910412ce861732b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
