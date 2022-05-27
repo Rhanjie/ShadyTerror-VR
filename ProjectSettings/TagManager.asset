@@ -1,3 +1,43 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6cbd933678d806f9cbd91939a88bcf09982f490973f7b42c7ffa39701585ea99
-size 409
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Post Processing
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - HandPlayer
+  - Hand
+  - Grabbable
+  - Grabbing
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
