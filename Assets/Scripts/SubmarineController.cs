@@ -8,7 +8,7 @@ public class SubmarineController : MonoBehaviour
     [SerializeField]
     private PhysicsGadgetConfigurableLimitReader doubleSlider;
 
-    private float maxSpeed = 10;
+    private float speed = 3;
     
     private void Start()
     {
@@ -16,8 +16,6 @@ public class SubmarineController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Debug.LogError( doubleSlider.GetValue());
-
-        transform.position += transform.forward * (doubleSlider.GetValue() * maxSpeed * Time.fixedDeltaTime);
+        transform.position += transform.forward * (doubleSlider.GetValue() * speed * Time.fixedDeltaTime);
     }
 }
