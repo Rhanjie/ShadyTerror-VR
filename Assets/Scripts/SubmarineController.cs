@@ -8,7 +8,7 @@ public class SubmarineController : MonoBehaviour
     [SerializeField]
     private PhysicsGadgetConfigurableLimitReader doubleSlider;
 
-    private float speed = 3;
+    public float speed = 10;
     
     private void Start()
     {
