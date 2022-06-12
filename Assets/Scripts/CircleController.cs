@@ -42,8 +42,10 @@ public class CircleController : MonoBehaviour
     public float GetMultiplier() 
     {
         var limits = _joint.limits;
-        var rotation = UnityEditor.TransformUtils.GetInspectorRotation(transform);
-        Value = rotation.z / (limits.max - limits.min) * (invertValue ? -2 : 2);
+        var rotation = Vector3.Scale(UnityEditor.TransformUtils.GetInspectorRotation(transform), _joint.axis);
+
+        var usingRotation = GetUsingAxisValue(rotation);
+        Value = usingRotation / (limits.max - limits.min) * (invertValue ? -2 : 2);
 
         if (Mathf.Abs(Value) < playRange)
         {
@@ -51,5 +53,15 @@ public class CircleController : MonoBehaviour
         }
 
         return Mathf.Clamp(Value, -1, 1);
+    }
+
+    public static float GetUsingAxisValue(Vector3 vector)
+    {
+        if (Mathf.Abs(vector.x) >= Mathf.Abs(vector.y))
+        {
+            return Mathf.Abs(vector.x) >= Mathf.Abs(vector.z) ? vector.x : vector.z;
+        }
+        
+        return Mathf.Abs(vector.y) >= Mathf.Abs(vector.z) ? vector.y : vector.z;
     }
 }
