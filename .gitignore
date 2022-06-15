@@ -76,3 +76,6 @@ crashlytics-build.properties
 
 # TextMesh Pro files
 [Aa]ssets/TextMesh*Pro/
+
+# Annoying Rider asset
+/ProjectSettings/RiderScriptEditorPersistedState.asset
