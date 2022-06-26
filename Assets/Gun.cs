@@ -30,11 +30,15 @@ public class Gun : MonoBehaviour
     private float totalDistance = 200;
 
     //private Animator Animator;
+    private AudioSource _audioSource;
     private float _lastShootTime;
     
     private void Awake()
     {
         //Animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
+        
+        _audioSource.Play();
     }
 
     private void Update()
@@ -57,8 +61,16 @@ public class Gun : MonoBehaviour
 
                 StartCoroutine(SpawnTrail(trail, fakeHitPoint, hit));
             }
-            
-            else StartCoroutine(SpawnTrail(trail, hit.point, hit));
+
+            else
+            {
+                if (hit.transform.gameObject.TryGetComponent(out EnemyBehaviour enemyBehaviour))
+                {
+                    enemyBehaviour.Hit(5);
+                }
+                
+                StartCoroutine(SpawnTrail(trail, hit.point, hit));
+            }
 
             _lastShootTime = Time.time;
         }
