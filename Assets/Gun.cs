@@ -50,15 +50,15 @@ public class Gun : MonoBehaviour
             ShootingSystem.Play();
 
             var trail = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
-            if (!Physics.Raycast(BulletSpawnPoint.position, GetDirection(), out RaycastHit hit, totalDistance, Mask))
+            if (!Physics.Raycast(BulletSpawnPoint.position, GetDirection(), out var hit, totalDistance, Mask))
             {
                 var transformReference = transform;
                 var fakeHitPoint = transformReference.position + (GetDirection() * totalDistance);
-                
-                StartCoroutine(SpawnTrail(trail, fakeHitPoint, false));
+
+                StartCoroutine(SpawnTrail(trail, fakeHitPoint, hit));
             }
             
-            else StartCoroutine(SpawnTrail(trail, hit.point, true));
+            else StartCoroutine(SpawnTrail(trail, hit.point, hit));
 
             _lastShootTime = Time.time;
         }
@@ -84,7 +84,7 @@ public class Gun : MonoBehaviour
         return direction;
     }
 
-    private IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint, bool madeImpact)
+    private IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint, RaycastHit hit)
     {
         var transformReference = trail.transform;
         var startPosition = transformReference.position;
@@ -103,9 +103,9 @@ public class Gun : MonoBehaviour
         
         //Animator.SetBool("IsShooting", false);
         trail.transform.position = hitPoint;
-        if (madeImpact)
+        if (hit.transform != null)
         {
-            Instantiate(ImpactParticleSystem, hitPoint, Quaternion.LookRotation(hitPoint));
+            Instantiate(ImpactParticleSystem, hitPoint, Quaternion.LookRotation(hitPoint), hit.transform);
         }
 
         Destroy(trail.gameObject, trail.time);
