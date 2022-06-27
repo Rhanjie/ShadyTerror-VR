@@ -32,26 +32,35 @@ public class Gun : MonoBehaviour
     //private Animator Animator;
     private AudioSource _audioSource;
     private float _lastShootTime;
-    
+
+    private bool _isShooting;
+
     private void Awake()
     {
         //Animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
-        
-        _audioSource.Play();
     }
 
     private void Update()
     {
-        Shoot();
+        if (_isShooting)
+        {
+            Shoot();
+        }
+    }
+    
+    public void ToggleShooting()
+    {
+        _isShooting = !_isShooting;
     }
 
-    public void Shoot()
+    private void Shoot()
     {
         if (_lastShootTime + ShootDelay < Time.time)
         {
             //Animator.SetBool("IsShooting", true);
             ShootingSystem.Play();
+            _audioSource.Play();
 
             var trail = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
             if (!Physics.Raycast(BulletSpawnPoint.position, GetDirection(), out var hit, totalDistance, Mask))
