@@ -484,7 +484,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: da2dc7104f9718345a4b51fd42eb6b64, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.3
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AddBulletSpread: 1
-  BulletSpreadVariance: {x: 0.3, y: 0.3, z: 0.3}
+  BulletSpreadVariance: {x: 0.1, y: 0.1, z: 0.1}
   ShootingSystem: {fileID: 198234346748616026, guid: ad2ab49d0a2a17148bd51c93d977bdbc,
     type: 3}
   BulletSpawnPoint: {fileID: 571279664}

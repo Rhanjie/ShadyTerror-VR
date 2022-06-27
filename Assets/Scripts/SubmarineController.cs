@@ -55,7 +55,7 @@ public class SubmarineController : MonoBehaviour
         _isDead = true;
 
         _rigidbody.useGravity = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
             
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

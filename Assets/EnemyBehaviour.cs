@@ -34,7 +34,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         _gun = GetComponent<Gun>();
 
-        _target = GameObject.Find("Player_Prefab").transform;
+        _target = GameObject.Find("StaticRoot").transform;
     }
 
     private void Update()
@@ -51,7 +51,7 @@ public class EnemyBehaviour : MonoBehaviour
             _isStop = false;
             
             var distance = Vector3.Distance(_target.position, rootTransform.position);
-            if (distance <= 70f)
+            if (distance <= 160f)
             {
                 _gun.SetShooting(true);
 
@@ -71,7 +71,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         var direction = (_target.position - rootTransform.position).normalized;
         var lookRotation = Quaternion.LookRotation(direction);
-        rootTransform.rotation = Quaternion.Slerp (rootTransform.rotation, lookRotation, Time.deltaTime * 5f);
+        rootTransform.rotation = Quaternion.Slerp(rootTransform.rotation, lookRotation, Time.deltaTime * 2f);
     }
     
     private void FixedUpdate()

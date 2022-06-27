@@ -1230,7 +1230,7 @@ MonoBehaviour:
   uiDisplay: {fileID: 1482988958}
   maxSpeed: 6
   multiplier: 2
-  maxHp: 200
+  maxHp: 100
 --- !u!65 &99027718696308999
 BoxCollider:
   m_ObjectHideFlags: 0
