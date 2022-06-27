@@ -75,7 +75,7 @@ public class Gun : MonoBehaviour
             {
                 if (hit.transform.gameObject.TryGetComponent(out EnemyBehaviour enemyBehaviour))
                 {
-                    enemyBehaviour.Hit(5);
+                    enemyBehaviour.Hit(2);
                 }
                 
                 StartCoroutine(SpawnTrail(trail, hit.point, hit));

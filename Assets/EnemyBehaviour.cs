@@ -13,6 +13,8 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField]
     private int _hp = 200;
 
+    private bool isDead = false;
+
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
@@ -22,7 +24,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         //Simple behaviour
         
-        if (_hp <= 0)
+        if (_hp <= 0 && !isDead)
         {
             StartCoroutine(DeadRoutine());
         }
@@ -35,6 +37,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     private IEnumerator DeadRoutine()
     {
+        isDead = true;
+        
         explosion.Play();
         _audioSource.Play();
         model.SetActive(false);
