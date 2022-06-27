@@ -14,8 +14,6 @@ public class CircleController : MonoBehaviour
     public Vector3 angle;
     public bool useLocal = false;
 
-    public TextMeshProUGUI text;
-    
     private HingeJoint _joint;
     public float Value { get; private set; } = 0;
 
@@ -29,8 +27,6 @@ public class CircleController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        text.text = GetMultiplier().ToString(CultureInfo.CurrentCulture);
-
         if (useLocal)
         {
             movingObject.localRotation *= Quaternion.Euler(angle * (GetMultiplier() * Time.fixedDeltaTime));

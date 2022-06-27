@@ -35,8 +35,6 @@ public class SubmarineController : MonoBehaviour
         if (handlerOnDefault && Math.Abs(_currentSpeed) <= 0.1)
             _currentSpeed = 0;
 
-        Debug.LogError(_currentSpeed);
-
         transform.position += transform.forward * (_currentSpeed * Time.fixedDeltaTime);
     }
 }
