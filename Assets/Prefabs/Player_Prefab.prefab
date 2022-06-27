@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 890859622}
   - component: {fileID: 890859621}
   m_Layer: 5
-  m_Name: Text
+  m_Name: GoalText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 1337659581}
   - component: {fileID: 1337659580}
   m_Layer: 5
-  m_Name: Text_01
+  m_Name: HpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 1370022337}
   - component: {fileID: 1370022336}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: VolumeHeaderText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 1474507371}
   - component: {fileID: 1474507370}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Separator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1227,8 +1227,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveHandler: {fileID: 6769253507550911169}
+  uiDisplay: {fileID: 1482988958}
   maxSpeed: 6
   multiplier: 2
+  maxHp: 200
 --- !u!65 &99027718696308999
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1366,7 +1368,7 @@ GameObject:
   - component: {fileID: 5694441095468601082}
   - component: {fileID: 5694441095468601083}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: VolumeSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3350,7 +3352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5694441096591376101}
   m_LocalRotation: {x: -0.31216997, y: 0.09425106, z: 0.27323672, w: 0.9049908}
-  m_LocalPosition: {x: -0.32399687, y: 0.6330001, z: -0.70370126}
+  m_LocalPosition: {x: -0.312, y: 0.605, z: -0.709}
   m_LocalScale: {x: 0.06, y: 0.10149458, z: 0.060000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4264,6 +4266,7 @@ GameObject:
   - component: {fileID: 5694441097250153327}
   - component: {fileID: 5694441097250153326}
   - component: {fileID: 5694441097250153325}
+  - component: {fileID: 1482988958}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4353,6 +4356,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4026532343
+--- !u!114 &1482988958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5694441097250153299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fdc267e4166acf459d333af0e353dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 5694441095468601083}
+  hpText: {fileID: 1337659580}
 --- !u!1 &5694441097277200861
 GameObject:
   m_ObjectHideFlags: 0
@@ -5575,7 +5592,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5694441097571372623}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1482988958}
+        m_TargetAssemblyTypeName: UiDisplay, Assembly-CSharp
+        m_MethodName: QuitApplication
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &5694441095514915566
 PrefabInstance:
   m_ObjectHideFlags: 0

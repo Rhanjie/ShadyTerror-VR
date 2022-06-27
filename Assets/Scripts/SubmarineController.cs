@@ -1,19 +1,65 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Autohand;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Rigidbody))]
 public class SubmarineController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     private PhysicsGadgetConfigurableLimitReader moveHandler;
+    
+    [SerializeField]
+    private UiDisplay uiDisplay;
 
+    [Header("Values")]
     public float maxSpeed = 6;
     public float multiplier = 2f;
-
-    private float _currentSpeed;
     
+    public int maxHp = 500;
+
+    private int _hp;
+    private float _currentSpeed;
+    private bool _isDead = false;
+
+    private Rigidbody _rigidbody;
+
+    private void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        
+        _hp = maxHp;
+        
+        uiDisplay.SetHp(_hp, maxHp);
+    }
+
+    private void Hit(int damage)
+    {
+        _hp -= damage;
+        
+        //PlaySound
+        
+        uiDisplay.SetHp(_hp, maxHp);
+
+        if (_hp <= 0 && !_isDead)
+        {
+            StartCoroutine(DeadRoutine());
+        }
+    }
+
+    private IEnumerator DeadRoutine()
+    {
+        //TODO: Add better dead
+        _isDead = true;
+
+        _rigidbody.useGravity = true;
+        yield return new WaitForSeconds(3);
+            
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     private void FixedUpdate()
     {
         var forwardMove = _currentSpeed >= 0;
