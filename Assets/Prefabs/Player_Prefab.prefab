@@ -1258,7 +1258,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &5694441095453988555
 GameObject:
@@ -2983,6 +2983,7 @@ MonoBehaviour:
     m_Bits: 1536
   BulletSpeed: 80
   totalDistance: 300
+  _audioSource: {fileID: 99027716981740244}
 --- !u!82 &99027716981740244
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3702,7 +3703,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5694441096756329000}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4753,6 +4754,7 @@ MonoBehaviour:
     m_Bits: 1536
   BulletSpeed: 80
   totalDistance: 300
+  _audioSource: {fileID: 99027717665800105}
 --- !u!82 &99027717665800105
 AudioSource:
   m_ObjectHideFlags: 0

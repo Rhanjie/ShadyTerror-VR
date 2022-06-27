@@ -8,36 +8,101 @@ public class EnemyBehaviour : MonoBehaviour
     public GameObject model;
     public ParticleSystem explosion;
     
+    [SerializeField]
     private AudioSource _audioSource;
     
     [SerializeField]
-    private int _hp = 200;
+    private Transform rootTransform;
+    
+    [SerializeField]
+    private int hp = 200;
+    
+    [SerializeField]
+    private float multiplier = 2f;
+    
+    [SerializeField]
+    private float maxSpeed = 4;
+    
+    private float _currentSpeed;
+    private bool _isDead = false;
+    private bool _isStop = false;
 
-    private bool isDead = false;
+    private Gun _gun;
+    private Transform _target;
 
     private void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _gun = GetComponent<Gun>();
+
+        _target = GameObject.Find("Player_Prefab").transform;
     }
 
     private void Update()
     {
         //Simple behaviour
-        
-        if (_hp <= 0 && !isDead)
+
+        if (!_isDead)
         {
-            StartCoroutine(DeadRoutine());
+            if (hp <= 0)
+            {
+                StartCoroutine(DeadRoutine());
+            }
+            
+            _isStop = false;
+            
+            var distance = Vector3.Distance(_target.position, rootTransform.position);
+            if (distance <= 70f)
+            {
+                _gun.SetShooting(true);
+
+                FaceToTarget();
+
+                if (distance <= 30)
+                {
+                    _isStop = true;
+                }
+            }
+            
+            else _gun.SetShooting(false);
         }
+    }
+
+    private void FaceToTarget()
+    {
+        var direction = (_target.position - rootTransform.position).normalized;
+        var lookRotation = Quaternion.LookRotation(direction);
+        rootTransform.rotation = Quaternion.Slerp (rootTransform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+    
+    private void FixedUpdate()
+    {
+        if (!_isStop)
+        {
+            _currentSpeed += (multiplier * Time.fixedDeltaTime);
+        }
+        
+        else _currentSpeed -= multiplier * Time.fixedDeltaTime;
+        
+        if (_currentSpeed > maxSpeed)
+            _currentSpeed = maxSpeed;
+        
+        if (_currentSpeed < -maxSpeed)
+            _currentSpeed = -maxSpeed;
+        
+        if (_isStop && Math.Abs(_currentSpeed) <= 0.1)
+            _currentSpeed = 0;
+
+        rootTransform.position += rootTransform.forward * (_currentSpeed * Time.fixedDeltaTime);
     }
 
     public void Hit(int damage)
     {
-        _hp -= damage;
+        hp -= damage;
     }
 
     private IEnumerator DeadRoutine()
     {
-        isDead = true;
+        _isDead = true;
         
         explosion.Play();
         _audioSource.Play();

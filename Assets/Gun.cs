@@ -28,9 +28,10 @@ public class Gun : MonoBehaviour
     
     [SerializeField]
     private float totalDistance = 200;
-
-    //private Animator Animator;
-    private AudioSource _audioSource;
+    
+    [SerializeField]
+    public AudioSource _audioSource;
+    
     private float _lastShootTime;
 
     private bool _isShooting;
@@ -38,7 +39,6 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         //Animator = GetComponent<Animator>();
-        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -52,6 +52,11 @@ public class Gun : MonoBehaviour
     public void ToggleShooting()
     {
         _isShooting = !_isShooting;
+    }
+    
+    public void SetShooting(bool isShooting)
+    {
+        _isShooting = isShooting;
     }
 
     private void Shoot()
@@ -76,6 +81,11 @@ public class Gun : MonoBehaviour
                 if (hit.transform.gameObject.TryGetComponent(out EnemyBehaviour enemyBehaviour))
                 {
                     enemyBehaviour.Hit(2);
+                }
+                
+                else if (hit.transform.gameObject.TryGetComponent(out SubmarineController player))
+                {
+                    player.Hit(1);
                 }
                 
                 StartCoroutine(SpawnTrail(trail, hit.point, hit));

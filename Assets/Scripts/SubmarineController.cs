@@ -35,7 +35,7 @@ public class SubmarineController : MonoBehaviour
         uiDisplay.SetHp(_hp, maxHp);
     }
 
-    private void Hit(int damage)
+    public void Hit(int damage)
     {
         _hp -= damage;
         
