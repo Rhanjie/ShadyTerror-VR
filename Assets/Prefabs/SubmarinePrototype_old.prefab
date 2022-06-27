@@ -3502,7 +3502,7 @@ GameObject:
   - component: {fileID: 5645659257432094682}
   - component: {fileID: 958825857}
   m_Layer: 11
-  m_Name: SubmarinePrototype
+  m_Name: SubmarinePrototype_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
