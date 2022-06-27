@@ -9,13 +9,10 @@ public class SubmarineController : MonoBehaviour
     [SerializeField]
     private PhysicsGadgetConfigurableLimitReader moveHandler;
 
-    public float maxSpeed = 2;
+    public float maxSpeed = 6;
+    public float multiplier = 2f;
 
     private float _currentSpeed;
-
-    private void Start()
-    {
-    }
     
     private void FixedUpdate()
     {
@@ -24,11 +21,10 @@ public class SubmarineController : MonoBehaviour
         
         if (handlerOnDefault)
         {
-            _currentSpeed += (0.5f * Time.fixedDeltaTime) * (forwardMove ? -1 : 1);
+            _currentSpeed += (multiplier * Time.fixedDeltaTime) * (forwardMove ? -1 : 1);
         }
         
-        else _currentSpeed += moveHandler.GetValue() * Time.fixedDeltaTime;
-
+        else _currentSpeed += moveHandler.GetValue() * multiplier * Time.fixedDeltaTime;
         
         if (_currentSpeed > maxSpeed)
             _currentSpeed = maxSpeed;
