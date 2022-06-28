@@ -117,7 +117,7 @@ public class EnemyBehaviour : MonoBehaviour
         _audioSource.Play();
         model.SetActive(false);
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         
         Destroy(prefab.gameObject);
     }
