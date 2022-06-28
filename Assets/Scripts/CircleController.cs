@@ -38,7 +38,22 @@ public class CircleController : MonoBehaviour
     public float GetMultiplier() 
     {
         var limits = _joint.limits;
-        var rotation = Vector3.Scale(UnityEditor.TransformUtils.GetInspectorRotation(transform), _joint.axis);
+        
+        //var rotation = Vector3.Scale(UnityEditor.TransformUtils.GetInspectorRotation(transform), _joint.axis);
+        
+        //TODO: Find better solution
+        var temporaryFixedAngles = transform.localEulerAngles;
+        if (temporaryFixedAngles.x >= 180)
+            temporaryFixedAngles.x -= 360;
+        
+        if (temporaryFixedAngles.y >= 180)
+            temporaryFixedAngles.y -= 360;
+        
+        if (temporaryFixedAngles.z >= 180)
+            temporaryFixedAngles.z -= 360;
+        
+        Debug.LogError($"{transform.gameObject.name} -> {temporaryFixedAngles}");
+        var rotation = Vector3.Scale(temporaryFixedAngles, _joint.axis);
 
         var usingRotation = GetUsingAxisValue(rotation);
         Value = usingRotation / (limits.max - limits.min) * (invertValue ? -2 : 2);

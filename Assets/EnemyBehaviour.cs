@@ -69,7 +69,7 @@ public class EnemyBehaviour : MonoBehaviour
             else _gun.SetShooting(false);
             
             //Remove if too far
-            if (distance > 1000f)
+            if (distance > 1100f)
             {
                 Destroy(prefab.gameObject);
             }
