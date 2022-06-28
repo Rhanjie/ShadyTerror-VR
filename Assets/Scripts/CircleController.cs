@@ -52,7 +52,7 @@ public class CircleController : MonoBehaviour
         if (temporaryFixedAngles.z >= 180)
             temporaryFixedAngles.z -= 360;
         
-        Debug.LogError($"{transform.gameObject.name} -> {temporaryFixedAngles}");
+        //Debug.LogError($"{transform.gameObject.name} -> {temporaryFixedAngles}");
         var rotation = Vector3.Scale(temporaryFixedAngles, _joint.axis);
 
         var usingRotation = GetUsingAxisValue(rotation);
