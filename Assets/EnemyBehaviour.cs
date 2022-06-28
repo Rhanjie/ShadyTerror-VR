@@ -62,8 +62,14 @@ public class EnemyBehaviour : MonoBehaviour
                     _isStop = true;
                 }
             }
-            
+
             else _gun.SetShooting(false);
+            
+            //Remove if too far
+            if (distance > 1000f)
+            {
+                DestroyImmediate(gameObject);
+            }
         }
     }
 
