@@ -469,6 +469,7 @@ MonoBehaviour:
   explosion: {fileID: 1489950990912265613}
   _audioSource: {fileID: 254818438481388048}
   rootTransform: {fileID: 4952404900508086}
+  prefab: {fileID: 4886737509247798}
   hp: 60
   multiplier: 2
   maxSpeed: 4

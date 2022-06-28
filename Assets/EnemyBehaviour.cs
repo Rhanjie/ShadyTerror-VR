@@ -15,6 +15,9 @@ public class EnemyBehaviour : MonoBehaviour
     private Transform rootTransform;
     
     [SerializeField]
+    private Transform prefab;
+    
+    [SerializeField]
     private int hp = 200;
     
     [SerializeField]
@@ -68,7 +71,7 @@ public class EnemyBehaviour : MonoBehaviour
             //Remove if too far
             if (distance > 1000f)
             {
-                DestroyImmediate(gameObject);
+                Destroy(prefab.gameObject);
             }
         }
     }
@@ -116,6 +119,6 @@ public class EnemyBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         
-        Destroy(gameObject);
+        Destroy(prefab.gameObject);
     }
 }
