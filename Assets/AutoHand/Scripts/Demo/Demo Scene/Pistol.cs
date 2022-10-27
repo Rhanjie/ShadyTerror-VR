@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Autohand.Demo{
-    public class Pistol : MonoBehaviour
+    public class PistolOld : MonoBehaviour
     {
         public Rigidbody body;
 
