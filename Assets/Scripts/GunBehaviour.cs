@@ -42,7 +42,7 @@ public class GunBehaviour : MonoBehaviour
 
     protected virtual void Start()
     {
-        gunAudioSource = gunAnimator.GetComponent<AudioSource>();
+        gunAudioSource = GetComponent<AudioSource>();
         
         if (minGunScatter > maxGunScatter)
         {
