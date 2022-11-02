@@ -28,11 +28,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private bool randomizeTargetPosition;
     
-    private PlayerBehaviour _target;
+    private GameObject _target;
     
     private void Start()
     {
-        _target = GameObject.FindWithTag("Player").GetComponent<PlayerBehaviour>();
+        _target = GameObject.FindWithTag("Player"); /*.GetComponent<PlayerBehaviour>()*/;
         if (_target == null)
         {
             throw new NotSupportedException("Not found player in the scene!");

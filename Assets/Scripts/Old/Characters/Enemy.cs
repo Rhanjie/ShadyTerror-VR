@@ -24,7 +24,7 @@ namespace Characters
         private bool _goalReached;
 
         protected AudioSource audioSource;
-        protected PlayerBehaviour targetToShoot;
+        protected GameObject targetToShoot;
         protected Vector3 targetToReach;
         protected Func<Vector3> randomPositionMethod;
         
@@ -46,7 +46,7 @@ namespace Characters
             _shootingCoroutineObject = StartCoroutine(ShootingRoutine());
         }
 
-        public void Init(PlayerBehaviour target, Func<Vector3> randomPosition = null)
+        public void Init(GameObject target, Func<Vector3> randomPosition = null)
         {
             targetToShoot = target;
             randomPositionMethod = randomPosition;
@@ -87,7 +87,7 @@ namespace Characters
         {
             yield return base.DieRoutine();
             
-            targetToShoot.SendDeathMessage(isHeadshot);
+            //targetToShoot.SendDeathMessage(isHeadshot);
             StopCoroutine(_shootingCoroutineObject);
             
             PlaySoundWithRandomPitch(scream, 0.9f, 1.1f);
