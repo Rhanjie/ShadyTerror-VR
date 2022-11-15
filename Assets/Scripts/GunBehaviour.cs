@@ -35,6 +35,9 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField]
     protected float shootingSpeed = 150f;
     
+    [SerializeField]
+    private LayerMask hittableLayers;
+    
     protected AudioSource gunAudioSource;
     protected float currentGunScatter;
     
@@ -72,7 +75,7 @@ public class GunBehaviour : MonoBehaviour
         gunAudioSource.Play();
         
         var trail = Instantiate(shootTrail, shootingPoint.position, Quaternion.identity);
-        if (Physics.Raycast(transform.position, GetDirection(), out var hit, maxDistance))
+        if (Physics.Raycast(transform.position, GetDirection(), out var hit, maxDistance, hittableLayers))
         {
             if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Enemy"))
             {
