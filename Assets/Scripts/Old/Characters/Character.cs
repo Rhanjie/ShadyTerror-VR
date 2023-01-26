@@ -60,9 +60,7 @@ namespace Characters
 
             if (minGunScatter > maxGunScatter)
             {
-                var temp = maxGunScatter;
-                maxGunScatter = minGunScatter;
-                minGunScatter = temp;
+                (maxGunScatter, minGunScatter) = (minGunScatter, maxGunScatter);
             }
         }
 
