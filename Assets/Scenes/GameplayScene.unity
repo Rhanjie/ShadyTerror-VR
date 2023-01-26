@@ -876,8 +876,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -1199,8 +1199,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -1551,8 +1551,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -2540,8 +2540,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -3432,8 +3432,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -4755,8 +4755,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -5044,8 +5044,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
@@ -13424,8 +13424,8 @@ MonoBehaviour:
   allowHeldSwapping: 1
   instantGrab: 0
   ignoreWeight: 0
-  maintainGrabOffset: 0
-  parentOnGrab: 1
+  maintainGrabOffset: 1
+  parentOnGrab: 0
   throwPower: 1
   jointBreakForce: Infinity
   showAdvancedSettings: 0
