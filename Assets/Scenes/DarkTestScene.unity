@@ -1262,36 +1262,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 415346446}
     m_Modifications:
-    - target: {fileID: 7471611797933986524, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_Range
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471611797933986524, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_Intensity
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471611797933986524, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_Lightmapping
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471611797933986524, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_Shadows.m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471611797933986524, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_BounceIntensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471611797933986524, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_Shadows.m_Strength
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7471611799077634956, guid: e07612bb891308347a7ef85aff5026ec,
         type: 3}
       propertyPath: m_RootOrder
@@ -1351,11 +1321,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BigLamp_03
-      objectReference: {fileID: 0}
-    - target: {fileID: 7471611799077634992, guid: e07612bb891308347a7ef85aff5026ec,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e07612bb891308347a7ef85aff5026ec, type: 3}
@@ -4230,6 +4195,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 68206544108074816, guid: 2f17eb67048f5fc499154e8cb2b669cd,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 68206545535163542, guid: 2f17eb67048f5fc499154e8cb2b669cd,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6051128400670645328, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
       propertyPath: m_Name
@@ -4253,7 +4228,7 @@ PrefabInstance:
     - target: {fileID: 6051128400670645335, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.87
+      value: -5.89
       objectReference: {fileID: 0}
     - target: {fileID: 6051128400670645335, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
