@@ -352,7 +352,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.92675185, b: 0.495283, a: 1}
   m_Intensity: 25
-  m_Range: 25
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -360,7 +360,7 @@ Light:
     m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 0.5
+    m_Strength: 1
     m_Bias: 0.02
     m_NormalBias: 0.1
     m_NearPlane: 0.3
@@ -388,7 +388,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
