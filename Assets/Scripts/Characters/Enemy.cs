@@ -13,10 +13,12 @@ namespace Characters
         [SerializeField] protected AudioClip laugh;
         [SerializeField] protected AudioClip scream;
         [SerializeField] protected Transform waypointsParent;
+        [SerializeField] protected Animator animator;
+        
+        [SerializeField] private float speed;
         
         private float _visionLength;
         private float _maxDistance;
-        private float _speed;
         private bool _foundPlayer;
 
         private CharacterController _characterController;
@@ -31,12 +33,13 @@ namespace Characters
         private int _currentWaypointIndex = 0;
         
         private static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
+        private static readonly int VelocityHash = Animator.StringToHash("Velocity");
 
         protected override void Start()
         {
             base.Start();
 
-            _speed = Random.Range(2, 4);
+            speed = Random.Range(2, 4);
             _visionLength = 10f;
             _maxDistance = Random.Range(2, 3);
 
@@ -46,7 +49,7 @@ namespace Characters
             _renderer = GetComponent<Renderer>();
             audioSource = GetComponent<AudioSource>();
             
-            var target = GameObject.FindWithTag("Testable"); /*.GetComponent<PlayerBehaviour>()*/;
+            var target = GameObject.FindWithTag("Player"); /*.GetComponent<PlayerBehaviour>()*/;
             if (target == null)
             {
                 throw new NotSupportedException("Not found player in the scene!");
@@ -71,6 +74,8 @@ namespace Characters
 
         public override void UpdateCustomBehaviour()
         {
+            ServeGravity();
+            
             if (_foundPlayer || TryToFindTarget())
                 UpdateAttackRoutine();
 
@@ -83,7 +88,6 @@ namespace Characters
             }
             
             UpdateWalkRoutine();
-            ServeGravity();
         }
 
         private bool TryToFindTarget()
@@ -137,13 +141,17 @@ namespace Characters
         {
             var direction = (targetToReach - position2D).normalized;
             
-            position2D = direction * _speed * Time.deltaTime;
+            position2D = direction * speed * Time.deltaTime;
+            
+            animator.SetFloat(VelocityHash, speed);
 
             _characterController.Move(new Vector3(position2D.x, 0, position2D.y));
         }
         
         private void HandleDestinationReached()
         {
+            animator.SetFloat(VelocityHash, 0);
+            
             if (_foundPlayer)
             {
                 _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
