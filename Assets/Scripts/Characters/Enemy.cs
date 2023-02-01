@@ -15,7 +15,9 @@ namespace Characters
         [SerializeField] protected Transform waypointsParent;
         [SerializeField] protected Animator animator;
         
-        [SerializeField] private float speed;
+        [Header("Debug")]
+        [SerializeField] private float walkSpeed;
+        [SerializeField] private float runSpeed;
         
         private float _visionLength;
         private float _maxDistance;
@@ -39,7 +41,8 @@ namespace Characters
         {
             base.Start();
 
-            speed = Random.Range(2, 4);
+            walkSpeed = Random.Range(0.2f, 1f);
+            runSpeed = Random.Range(3, 5);
             _visionLength = 10f;
             _maxDistance = Random.Range(2, 3);
 
@@ -140,10 +143,11 @@ namespace Characters
         private void GoToTarget(Vector2 position2D)
         {
             var direction = (targetToReach - position2D).normalized;
+
+            var velocity = _foundPlayer ? runSpeed : walkSpeed;
+            position2D = direction * velocity * Time.deltaTime;
             
-            position2D = direction * speed * Time.deltaTime;
-            
-            animator.SetFloat(VelocityHash, speed);
+            animator.SetFloat(VelocityHash, velocity);
 
             _characterController.Move(new Vector3(position2D.x, 0, position2D.y));
         }
