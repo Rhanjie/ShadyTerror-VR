@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,12 +9,10 @@ namespace Characters
     public class Enemy : Character
     {
         [Header("Custom")]
-        [SerializeField]
-        protected AudioClip laugh;
-        
-        [SerializeField]
-        protected AudioClip scream;
-        
+        [SerializeField] protected AudioClip laugh;
+        [SerializeField] protected AudioClip scream;
+        [SerializeField] protected List<Transform> waypoints;
+
         private Renderer _renderer;
         private Coroutine _attackCoroutineObject;
         private float _visionLength;
@@ -22,10 +21,12 @@ namespace Characters
         private bool _foundPlayer;
         private bool _goalReached;
 
-        protected AudioSource audioSource;
-        protected GameObject targetToShoot;
-        protected Vector3 targetToReach;
-        protected Func<Vector3> randomPositionMethod;
+        private AudioSource audioSource;
+        private GameObject targetToShoot;
+        private Vector3 targetToReach;
+        private Func<Vector3> randomPositionMethod;
+        
+        private int _currentWaypointIndex = 0;
         
         private static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
 
@@ -45,55 +46,66 @@ namespace Characters
             {
                 throw new NotSupportedException("Not found player in the scene!");
             }
-
-            Init(target, null);
-        }
-
-        public void Init(GameObject target, Func<Vector3> randomPosition = null)
-        {
-            targetToShoot = target;
-            randomPositionMethod = randomPosition;
             
-            //targetToReach = randomPositionMethod?.Invoke() ?? targetToShoot.transform.position;
+            targetToShoot = target;
         }
 
         public override void UpdateCustomBehaviour()
         {
+            TryToFindTarget();
+            UpdateRoutine();
+        }
+
+        private void TryToFindTarget()
+        {
             targetToReach = targetToShoot.transform.position;
+            
             var distance = Vector3.Distance(targetToReach, transform.position);
-            
-            if (!_foundPlayer)
-            {
-                //TODO: Throw a raycast to check if there are any obstacles between enemy and player
-                if (distance <= _visionLength)
-                {
-                    PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
-                    _foundPlayer = true;
-                }
-            }
-
-            if (!_foundPlayer)
+            if (distance > _visionLength)
                 return;
             
+            PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
             FaceToTarget();
-
-            if (_goalReached)
-                return;
             
-            if (distance <= _maxDistance)
+            _foundPlayer = true;
+        }
+
+        private void UpdateRoutine()
+        {
+            if (!_foundPlayer)
+                targetToReach = waypoints[_currentWaypointIndex].position;
+            
+            var distance = Vector2.Distance(targetToReach, transform.position);
+            if (distance > 0.5f)
             {
-                if (_attackCoroutineObject == null)
-                    _attackCoroutineObject = StartCoroutine(AttackRoutine());
+                GoToTarget();
             }
 
-            else
-            {
-                var cachedPosition = transform.position;
-                var direction = (targetToReach - cachedPosition).normalized;
+            else HandleDesinationReached();
+        }
+
+        private void GoToTarget()
+        {
+            var cachedPosition = transform.position;
+            var direction = (targetToReach - cachedPosition).normalized;
                 
-                cachedPosition += direction * _speed * Time.deltaTime;
-                transform.position = cachedPosition;
+            cachedPosition += direction * _speed * Time.deltaTime;
+            transform.position = cachedPosition;
+        }
+        
+        private void HandleDesinationReached()
+        {
+            if (_foundPlayer)
+            {
+                _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
             }
+            
+            else _currentWaypointIndex = GetNextWaypointIndex(_currentWaypointIndex);
+        }
+
+        private int GetNextWaypointIndex(int previousIndex)
+        {
+            return (previousIndex + 1) % waypoints.Count;
         }
 
         public override IEnumerator DieRoutine()
