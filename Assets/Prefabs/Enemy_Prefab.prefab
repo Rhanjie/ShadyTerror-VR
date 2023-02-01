@@ -298,9 +298,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1283965391530412722}
-  - component: {fileID: 1283965391530412729}
-  - component: {fileID: 593098394581724078}
+  - component: {fileID: 995941016582502119}
   - component: {fileID: 196050127}
+  - component: {fileID: 593098394581724078}
   m_Layer: 7
   m_Name: Enemy_Prefab
   m_TagString: Enemy
@@ -329,7 +329,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1283965391530412729
+--- !u!114 &995941016582502119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1283965391530412728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f24c00d8e5b37b4d91dbae2e703d8a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 36ca23638d6d36041ba75e26a2de6073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 8272998750688570588}
@@ -349,6 +349,28 @@ MonoBehaviour:
   scream: {fileID: 8300000, guid: 76276043e2bc7ec43b05fe478833ef4c, type: 3}
   waypointsParent: {fileID: 2554138297807880950}
   animator: {fileID: 7422315137632039883}
+  walkSpeed: 0
+  runSpeed: 0
+  sourceTexture: {fileID: 8400000, guid: 6b1c4fa5ea732ac4f829d751fd145f23, type: 2}
+  lightLevel: 0
+--- !u!143 &196050127
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283965391530412728}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.789114
+  m_Radius: 0.2
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!82 &593098394581724078
 AudioSource:
   m_ObjectHideFlags: 0
@@ -445,24 +467,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!143 &196050127
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1283965391530412728}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.789114
-  m_Radius: 0.2
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &1283965391593651697
 GameObject:
   m_ObjectHideFlags: 0
