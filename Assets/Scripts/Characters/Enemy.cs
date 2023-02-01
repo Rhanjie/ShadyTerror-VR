@@ -124,8 +124,6 @@ namespace Characters
             }
 
             targetToReach = ConvertToVector2(player.transform.position);
-            
-            _foundPlayer = true;
         }
 
         private void UpdateWalkRoutine()

@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 6051128400670645335}
   - component: {fileID: 6562043294426349011}
   m_Layer: 11
-  m_Name: XRPlayer_Main
+  m_Name: PlayerVR_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
