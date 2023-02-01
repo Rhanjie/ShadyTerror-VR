@@ -78,11 +78,13 @@ namespace Characters
 
         private float GetAttackDuration()
         {
+            const float additionalOffset = 0.2f;
+            
             var attackClip = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Zombie_Attack");
             if (attackClip == null)
                 throw new KeyNotFoundException("Not found 'Zombie_Attack' animation!");
                 
-            return attackClip.length;
+            return attackClip.length + additionalOffset;
         }
 
         public override void UpdateCustomBehaviour()
