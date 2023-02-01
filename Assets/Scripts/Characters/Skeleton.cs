@@ -1,45 +1,58 @@
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 namespace Characters
 {
     public class Skeleton : Enemy
     {
-        private float _rawLightLevel;
-        
-        public RenderTexture sourceTexture;
-        public int lightLevel;
-        
+        private RenderTexture _sourceTexture;
+
+        public Camera lightCalculatorCamera;
+        public float lightLevel;
+
+        protected override void Start()
+        {
+            base.Start();
+
+            var colorFormat = GraphicsFormat.R8G8B8A8_UNorm;
+            var depthStencilFormat = GraphicsFormat.D32_SFloat_S8_UInt;
+            
+            _sourceTexture = new RenderTexture(32, 32, colorFormat, depthStencilFormat);
+            lightCalculatorCamera.targetTexture = _sourceTexture;
+        }
+
         public override void UpdateCustomBehaviour()
         {
             //TODO: Count light
 
             lightLevel = CalculateLight();
             
-            if (lightLevel < 100)
+            if (lightLevel < 0.1f)
                 base.UpdateCustomBehaviour();
         }
 
-        private int CalculateLight()
+        private float CalculateLight()
         {
-            var tmp = RenderTexture.GetTemporary(sourceTexture.width, sourceTexture.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Linear);
+            var tmp = RenderTexture.GetTemporary(
+                _sourceTexture.width, _sourceTexture.height, 0,
+                RenderTextureFormat.Default, RenderTextureReadWrite.Linear
+            );
             
-            Graphics.Blit(sourceTexture, tmp);
+            Graphics.Blit(_sourceTexture, tmp);
             var previous = RenderTexture.active;
             RenderTexture.active = tmp;
             
-            var myTexture2D = new Texture2D(sourceTexture.width, sourceTexture.height);
+            var myTexture2D = new Texture2D(_sourceTexture.width, _sourceTexture.height);
             myTexture2D.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, 0);
             myTexture2D.Apply();
             
             RenderTexture.active = previous;
             RenderTexture.ReleaseTemporary(tmp);
             
-            var centerPixel = myTexture2D.GetPixel(myTexture2D.width / 2, myTexture2D.height / 2);
+            Color32 centerPixel = myTexture2D.GetPixel(myTexture2D.width / 2, myTexture2D.height / 2);
             Destroy(myTexture2D);
-            
-            _rawLightLevel = (0.2126f * centerPixel.r) + (0.7152f * centerPixel.g) + (0.0722f * centerPixel.b);
 
-            return Mathf.RoundToInt(_rawLightLevel);
+            return (0.2126f * centerPixel.r) + (0.7152f * centerPixel.g) + (0.0722f * centerPixel.b);
         }
     }
 }
