@@ -9,18 +9,17 @@ namespace Characters
     {
         [Header("Custom")]
         [SerializeField]
-        private Transform transformToRotate;
-        
-        [SerializeField]
         protected AudioClip laugh;
         
         [SerializeField]
         protected AudioClip scream;
         
         private Renderer _renderer;
-        private Coroutine _shootingCoroutineObject;
+        private Coroutine _attackCoroutineObject;
+        private float _visionLength;
         private float _maxDistance;
         private float _speed;
+        private bool _foundPlayer;
         private bool _goalReached;
 
         protected AudioSource audioSource;
@@ -34,16 +33,20 @@ namespace Characters
         {
             base.Start();
 
-            _speed = Random.Range(2, 4);
-            _maxDistance = Random.Range(15, 25);
+            _speed = Random.Range(3, 5);
+            _visionLength = 20f;
+            _maxDistance = Random.Range(2, 3);
 
             _renderer = GetComponent<Renderer>();
             audioSource = GetComponent<AudioSource>();
+            
+            var target = GameObject.FindWithTag("Testable"); /*.GetComponent<PlayerBehaviour>()*/;
+            if (target == null)
+            {
+                throw new NotSupportedException("Not found player in the scene!");
+            }
 
-            if (transformToRotate == null)
-                transformToRotate = transform;
-
-            _shootingCoroutineObject = StartCoroutine(ShootingRoutine());
+            Init(target, null);
         }
 
         public void Init(GameObject target, Func<Vector3> randomPosition = null)
@@ -51,35 +54,45 @@ namespace Characters
             targetToShoot = target;
             randomPositionMethod = randomPosition;
             
-            targetToReach = randomPositionMethod?.Invoke() ?? targetToShoot.transform.position;
+            //targetToReach = randomPositionMethod?.Invoke() ?? targetToShoot.transform.position;
         }
 
         public override void UpdateCustomBehaviour()
         {
+            targetToReach = targetToShoot.transform.position;
+            var distance = Vector3.Distance(targetToReach, transform.position);
+            
+            if (!_foundPlayer)
+            {
+                //TODO: Throw a raycast to check if there are any obstacles between enemy and player
+                if (distance <= _visionLength)
+                {
+                    PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
+                    _foundPlayer = true;
+                }
+            }
+
+            if (!_foundPlayer)
+                return;
+            
             FaceToTarget();
 
             if (_goalReached)
-            {
                 return;
-            }
-
-            var distance = Vector3.Distance(targetToReach, transform.position);
+            
             if (distance <= _maxDistance)
             {
-                if (randomPositionMethod == null)
-                {
-                    PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
-                    _goalReached = true;
-                }
-                    
-                else targetToReach = randomPositionMethod();
+                if (_attackCoroutineObject == null)
+                    _attackCoroutineObject = StartCoroutine(AttackRoutine());
             }
 
             else
             {
-                var direction = (targetToReach - transform.position).normalized;
+                var cachedPosition = transform.position;
+                var direction = (targetToReach - cachedPosition).normalized;
                 
-                transform.position += direction * _speed * Time.deltaTime;
+                cachedPosition += direction * _speed * Time.deltaTime;
+                transform.position = cachedPosition;
             }
         }
 
@@ -88,12 +101,12 @@ namespace Characters
             yield return base.DieRoutine();
             
             //targetToShoot.SendDeathMessage(isHeadshot);
-            StopCoroutine(_shootingCoroutineObject);
+            StopCoroutine(_attackCoroutineObject);
             
             PlaySoundWithRandomPitch(scream, 0.9f, 1.1f);
             
-            rigidbody.freezeRotation = false;
-            rigidbody.AddForce(-transform.forward * 50f);
+            dynamicBody.freezeRotation = false;
+            dynamicBody.AddForce(-transform.forward * 50f);
 
             yield return DissolveRoutine(2);
 
@@ -111,9 +124,9 @@ namespace Characters
                 dissolvePower = Mathf.Lerp(1, 0, time);
 
                 //If enemy is half invisible then remove collisions
-                if (rigidbody.detectCollisions && time >= 0.5f)
+                if (dynamicBody.detectCollisions && time >= 0.5f)
                 {
-                    rigidbody.detectCollisions = false;
+                    dynamicBody.detectCollisions = false;
                 }
 
                 _renderer.material.SetFloat(DissolvePowerID, dissolvePower);
@@ -123,23 +136,22 @@ namespace Characters
             yield return null;
         }
         
-        private IEnumerator ShootingRoutine()
+        private IEnumerator AttackRoutine()
         {
-            //Endless loop but coroutine will be stopped when enemy dies
-            while (true)
-            {
-                yield return new WaitForSeconds(Random.Range(1f, 4f));
-
-                Shoot();
-            }
+            PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
+            
+            Attack();
+            
+            yield return new WaitForSeconds(Random.Range(1f, 4f));
+            yield return null;
         }
         
         private void FaceToTarget()
         {
-            var direction = (targetToShoot.transform.position - transformToRotate.position).normalized;
+            var direction = (targetToShoot.transform.position - transform.position).normalized;
             var lookRotation = Quaternion.LookRotation(direction);
             
-            transformToRotate.rotation = Quaternion.Slerp(transformToRotate.rotation, lookRotation, Time.deltaTime * 2f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
         }
 
         protected void PlaySoundWithRandomPitch(AudioClip clip, float minPitch, float maxPitch)

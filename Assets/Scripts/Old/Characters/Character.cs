@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Characters
 {
@@ -10,58 +9,27 @@ namespace Characters
     {
         [Header("References")]
         [SerializeField]
-        protected Transform shootingDirection;
+        protected Transform attackPoint;
         
         [SerializeField]
-        protected Transform shootingPoint;
-    
-        [SerializeField]
-        protected TrailRenderer shootTrail;
+        protected TrailRenderer attackTrail;
         
-        [SerializeField]
-        protected Animator gunAnimator;
-        
-        [SerializeField]
-        private ParticleSystem muzzleFlash;
-
         [Space(10)]
         [Header("Settings")]
         [SerializeField]
         protected int maxHealth = 5;
         
-        [SerializeField]
-        protected float maxDistance = 100;
-
-        [SerializeField]
-        protected float minGunScatter = 0.1f;
+        protected Rigidbody dynamicBody;
         
-        [SerializeField]
-        protected float maxGunScatter = 0.3f;
-    
-        [SerializeField]
-        protected float shootingSpeed = 150f;
-        
-        protected Rigidbody rigidbody;
-        protected AudioSource gunAudioSource;
-    
-        protected float currentGunScatter;
         protected int currentHealth;
         protected bool isHeadshot = false;
-
         protected bool isDead;
-        private static readonly int ShootTrigger = Animator.StringToHash("Shoot");
 
         protected virtual void Start()
         {
-            rigidbody = GetComponent<Rigidbody>();
-            gunAudioSource = gunAnimator.GetComponent<AudioSource>();
-            
-            currentHealth = maxHealth;
+            dynamicBody = GetComponent<Rigidbody>();
 
-            if (minGunScatter > maxGunScatter)
-            {
-                (maxGunScatter, minGunScatter) = (minGunScatter, maxGunScatter);
-            }
+            currentHealth = maxHealth;
         }
 
         protected virtual void Update()
@@ -71,13 +39,6 @@ namespace Characters
 
             UpdateCustomBehaviour();
             
-            if (currentGunScatter > minGunScatter)
-            {
-                currentGunScatter -= 0.1f * Time.deltaTime;
-            }
-
-            else currentGunScatter = minGunScatter;
-
             if (currentHealth <= 0)
             {
                 StartCoroutine(DieRoutine());
@@ -86,13 +47,10 @@ namespace Characters
 
         public abstract void UpdateCustomBehaviour();
 
-        public virtual void Shoot()
+        public virtual void Attack()
         {
-            gunAnimator.SetTrigger(ShootTrigger);
-            gunAudioSource.Play();
-            
-            var trail = Instantiate(shootTrail, shootingPoint.position, Quaternion.identity);
-            if (Physics.Raycast(transform.position, GetDirection(), out var hit, maxDistance))
+            var trail = Instantiate(attackTrail, attackPoint.position, Quaternion.identity);
+            if (Physics.Raycast(transform.position, transform.forward, out var hit, 100f))
             {
                 if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Enemy"))
                 {
@@ -108,12 +66,11 @@ namespace Characters
             }
             else
             {
-                var fakeHitPoint = transform.position + (GetDirection() * maxDistance);
+                var fakeHitPoint = transform.position + (transform.forward);
                 StartCoroutine(SpawnTrail(trail, fakeHitPoint));
             }
-        
-            currentGunScatter = maxGunScatter;
-            muzzleFlash.Play();
+            
+            //hitSound.Play();
         }
 
         public virtual void Hit(string colliderName)
@@ -143,7 +100,7 @@ namespace Characters
                 var time = 1 - (remainingDistance / distance);
                 trail.transform.position = Vector3.Lerp(trailPosition, hitPoint, time);
 
-                remainingDistance -= shootingSpeed * Time.deltaTime;
+                remainingDistance -= 10 * Time.deltaTime;
 
                 yield return null;
             }
@@ -151,20 +108,6 @@ namespace Characters
             trail.transform.position = hitPoint;
 
             Destroy(trail.gameObject, trail.time);
-        }
-    
-        protected Vector3 GetDirection()
-        {
-            var direction = shootingDirection.forward;
-
-            direction += new Vector3(
-                Random.Range(-currentGunScatter, currentGunScatter),
-                Random.Range(-currentGunScatter, currentGunScatter),
-                Random.Range(-currentGunScatter, currentGunScatter)
-            );
-        
-            direction.Normalize();
-            return direction;
         }
     }
 }
