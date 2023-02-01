@@ -36,7 +36,7 @@ namespace Characters
         {
             base.Start();
 
-            _speed = Random.Range(3, 5);
+            _speed = Random.Range(2, 4);
             _visionLength = 10f;
             _maxDistance = Random.Range(2, 3);
 
@@ -104,9 +104,7 @@ namespace Characters
                 
                 _foundPlayer = true;
             }
-            
-            FaceToTarget();
-            
+
             targetToReach = ConvertToVector2(player.transform.position);
             
             _foundPlayer = true;
@@ -114,10 +112,11 @@ namespace Characters
 
         private void UpdateWalkRoutine()
         {
+            FaceToTarget();
+            
             var position2D = ConvertToVector2(transform.position);
-
             var distance = Vector2.Distance(targetToReach, position2D);
-            if (distance > 1f)
+            if (distance > 1.5f)
             {
                 GoToTarget(position2D);
             }
@@ -215,16 +214,20 @@ namespace Characters
         
         private void FaceToTarget()
         {
-            var direction = (player.transform.position - transform.position).normalized;
-            var lookRotation = Quaternion.LookRotation(direction);
+            var position2D = ConvertToVector2(transform.position);
+            var direction = (targetToReach - position2D).normalized;
+            var direction3D = new Vector3(direction.x, 0f, direction.y);
             
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);
+            var cachedRotation = transform.rotation;
+            var lookRotation = Quaternion.LookRotation(direction3D);
+            
+            cachedRotation = Quaternion.Slerp(cachedRotation, lookRotation, Time.deltaTime * 4f);
+            transform.rotation = cachedRotation;
         }
 
         protected void PlaySoundWithRandomPitch(AudioClip clip, float minPitch, float maxPitch)
         {
             audioSource.pitch = Random.Range(minPitch, maxPitch);
-            
             audioSource.PlayOneShot(clip);
         }
     }
