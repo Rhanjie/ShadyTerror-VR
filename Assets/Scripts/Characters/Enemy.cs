@@ -20,8 +20,8 @@ namespace Characters
         [SerializeField] private float runSpeed;
         
         private float _visionLength;
-        private float _maxDistance;
         private bool _foundPlayer;
+        private float _attackDuration;
 
         private CharacterController _characterController;
         private Renderer _renderer;
@@ -36,17 +36,18 @@ namespace Characters
         
         private static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         private static readonly int VelocityHash = Animator.StringToHash("Velocity");
+        private static readonly int AttackHash = Animator.StringToHash("Attack");
 
         protected override void Start()
         {
             base.Start();
 
-            walkSpeed = Random.Range(0.2f, 1f);
+            walkSpeed = Random.Range(0.2f, 2f);
             runSpeed = Random.Range(3, 5);
             _visionLength = 10f;
-            _maxDistance = Random.Range(2, 3);
 
             _waypoints = GetWaypoints();
+            _attackDuration = GetAttackDuration();
 
             _characterController = GetComponent<CharacterController>();
             _renderer = GetComponent<Renderer>();
@@ -75,6 +76,15 @@ namespace Characters
             return waypoints;
         }
 
+        private float GetAttackDuration()
+        {
+            var attackClip = animator.runtimeAnimatorController.animationClips.FirstOrDefault(clip => clip.name == "Zombie_Attack");
+            if (attackClip == null)
+                throw new KeyNotFoundException("Not found 'Zombie_Attack' animation!");
+                
+            return attackClip.length;
+        }
+
         public override void UpdateCustomBehaviour()
         {
             ServeGravity();
@@ -90,7 +100,8 @@ namespace Characters
                 targetToReach = _waypoints[_currentWaypointIndex];
             }
             
-            UpdateWalkRoutine();
+            if (_attackCoroutineObject == null)
+                UpdateWalkRoutine();
         }
 
         private bool TryToFindTarget()
@@ -216,12 +227,14 @@ namespace Characters
         
         private IEnumerator AttackRoutine()
         {
+            animator.SetTrigger(AttackHash);
             PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
             
             Attack();
             
-            yield return new WaitForSeconds(Random.Range(1f, 4f));
-            yield return null;
+            yield return new WaitForSeconds(_attackDuration);
+            
+            _attackCoroutineObject = null;
         }
         
         private void FaceToTarget()
