@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,21 +12,22 @@ namespace Characters
         [Header("Custom")]
         [SerializeField] protected AudioClip laugh;
         [SerializeField] protected AudioClip scream;
-        [SerializeField] protected List<Transform> waypoints;
-
-        private Renderer _renderer;
-        private Coroutine _attackCoroutineObject;
+        [SerializeField] protected Transform waypointsParent;
+        
         private float _visionLength;
         private float _maxDistance;
         private float _speed;
         private bool _foundPlayer;
-        private bool _goalReached;
 
+        private CharacterController _characterController;
+        private Renderer _renderer;
+        private Coroutine _attackCoroutineObject;
         private AudioSource audioSource;
-        private GameObject targetToShoot;
-        private Vector3 targetToReach;
+        private GameObject player;
+        private Vector2 targetToReach;
         private Func<Vector3> randomPositionMethod;
-        
+
+        private List<Vector2> _waypoints;
         private int _currentWaypointIndex = 0;
         
         private static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
@@ -35,9 +37,12 @@ namespace Characters
             base.Start();
 
             _speed = Random.Range(3, 5);
-            _visionLength = 20f;
+            _visionLength = 10f;
             _maxDistance = Random.Range(2, 3);
 
+            _waypoints = GetWaypoints();
+
+            _characterController = GetComponent<CharacterController>();
             _renderer = GetComponent<Renderer>();
             audioSource = GetComponent<AudioSource>();
             
@@ -47,53 +52,98 @@ namespace Characters
                 throw new NotSupportedException("Not found player in the scene!");
             }
             
-            targetToShoot = target;
+            player = target;
+        }
+
+        private List<Vector2> GetWaypoints()
+        {
+            var waypoints = new List<Vector2>();
+            
+            foreach (var waypoint in waypointsParent.Cast<Transform>())
+            {
+                var position = ConvertToVector2(waypoint.position);
+                
+                waypoints.Add(position);
+            }
+
+            return waypoints;
         }
 
         public override void UpdateCustomBehaviour()
         {
-            TryToFindTarget();
-            UpdateRoutine();
+            if (_foundPlayer || TryToFindTarget())
+                UpdateAttackRoutine();
+
+            if (!_foundPlayer)
+            {
+                if (_waypoints.Count == 0)
+                    return;
+                
+                targetToReach = _waypoints[_currentWaypointIndex];
+            }
+            
+            UpdateWalkRoutine();
+            ServeGravity();
         }
 
-        private void TryToFindTarget()
+        private bool TryToFindTarget()
         {
-            targetToReach = targetToShoot.transform.position;
+            var playerPosition = ConvertToVector2(player.transform.position);
+            var distance = Vector3.Distance(playerPosition, transform.position);
             
-            var distance = Vector3.Distance(targetToReach, transform.position);
-            if (distance > _visionLength)
-                return;
+            //TODO: THROW RAYCAST
             
-            PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
+            return distance <= _visionLength;
+        }
+
+        private void UpdateAttackRoutine()
+        {
+            if (!_foundPlayer)
+            {
+                PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
+                
+                _foundPlayer = true;
+            }
+            
             FaceToTarget();
+            
+            targetToReach = ConvertToVector2(player.transform.position);
             
             _foundPlayer = true;
         }
 
-        private void UpdateRoutine()
+        private void UpdateWalkRoutine()
         {
-            if (!_foundPlayer)
-                targetToReach = waypoints[_currentWaypointIndex].position;
-            
-            var distance = Vector2.Distance(targetToReach, transform.position);
-            if (distance > 0.5f)
+            var position2D = ConvertToVector2(transform.position);
+
+            var distance = Vector2.Distance(targetToReach, position2D);
+            if (distance > 1f)
             {
-                GoToTarget();
+                GoToTarget(position2D);
             }
 
-            else HandleDesinationReached();
-        }
-
-        private void GoToTarget()
-        {
-            var cachedPosition = transform.position;
-            var direction = (targetToReach - cachedPosition).normalized;
-                
-            cachedPosition += direction * _speed * Time.deltaTime;
-            transform.position = cachedPosition;
+            else HandleDestinationReached();
         }
         
-        private void HandleDesinationReached()
+        private void ServeGravity()
+        {
+            var verticalVelocity = 0f;
+            if (!_characterController.isGrounded)
+                verticalVelocity += Physics.gravity.y * Time.deltaTime;
+            
+            _characterController.Move(new Vector3(0f, verticalVelocity, 0f));
+        }
+
+        private void GoToTarget(Vector2 position2D)
+        {
+            var direction = (targetToReach - position2D).normalized;
+            
+            position2D = direction * _speed * Time.deltaTime;
+
+            _characterController.Move(new Vector3(position2D.x, 0, position2D.y));
+        }
+        
+        private void HandleDestinationReached()
         {
             if (_foundPlayer)
             {
@@ -105,7 +155,12 @@ namespace Characters
 
         private int GetNextWaypointIndex(int previousIndex)
         {
-            return (previousIndex + 1) % waypoints.Count;
+            return (previousIndex + 1) % _waypoints.Count;
+        }
+
+        private static Vector2 ConvertToVector2(Vector3 position)
+        {
+            return new Vector2(position.x, position.z);
         }
 
         public override IEnumerator DieRoutine()
@@ -117,8 +172,8 @@ namespace Characters
             
             PlaySoundWithRandomPitch(scream, 0.9f, 1.1f);
             
-            dynamicBody.freezeRotation = false;
-            dynamicBody.AddForce(-transform.forward * 50f);
+            _characterController.attachedRigidbody.freezeRotation = false;
+            _characterController.attachedRigidbody.AddForce(-transform.forward * 50f);
 
             yield return DissolveRoutine(2);
 
@@ -136,9 +191,9 @@ namespace Characters
                 dissolvePower = Mathf.Lerp(1, 0, time);
 
                 //If enemy is half invisible then remove collisions
-                if (dynamicBody.detectCollisions && time >= 0.5f)
+                if (_characterController.attachedRigidbody.detectCollisions && time >= 0.5f)
                 {
-                    dynamicBody.detectCollisions = false;
+                    _characterController.attachedRigidbody.detectCollisions = false;
                 }
 
                 _renderer.material.SetFloat(DissolvePowerID, dissolvePower);
@@ -160,7 +215,7 @@ namespace Characters
         
         private void FaceToTarget()
         {
-            var direction = (targetToShoot.transform.position - transform.position).normalized;
+            var direction = (player.transform.position - transform.position).normalized;
             var lookRotation = Quaternion.LookRotation(direction);
             
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 2f);

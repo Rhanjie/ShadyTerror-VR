@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Characters
 {
-    [RequireComponent(typeof(Rigidbody))]
     public abstract class Character : MonoBehaviour, ICharacter
     {
         [Header("References")]
@@ -18,17 +17,13 @@ namespace Characters
         [Header("Settings")]
         [SerializeField]
         protected int maxHealth = 5;
-        
-        protected Rigidbody dynamicBody;
-        
+
         protected int currentHealth;
         protected bool isHeadshot = false;
         protected bool isDead;
 
         protected virtual void Start()
         {
-            dynamicBody = GetComponent<Rigidbody>();
-
             currentHealth = maxHealth;
         }
 
