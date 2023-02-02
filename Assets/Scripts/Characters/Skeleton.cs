@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -14,6 +16,38 @@ namespace Characters
         
         public float lightLevel;
         public Vector3 darkestDirection;
+        
+        private readonly List<(Vector3 direction, float intensity)> _directionsAround = new()
+        {
+            (Vector3.forward + Vector3.left, 255),
+            (Vector3.forward + Vector3.right, 255),
+            (Vector3.back + Vector3.left, 255),
+            (Vector3.back + Vector3.right, 255),
+
+            (Vector3.forward, 255),
+            (Vector3.back, 255),
+            (Vector3.left, 255),
+            (Vector3.right, 255),
+        };
+
+        private (Vector3, float) GetDirectionPairFrom(Vector2 direction2D)
+        {
+            var normalizedX = (int)Math.Round(direction2D.x);
+            var normalizedY = (int)Math.Round(direction2D.y);
+
+            foreach (var tuple in _directionsAround)
+            {
+                var directionX = (int)tuple.direction.x;
+                var directionY = (int)tuple.direction.y;
+                
+                if (directionX == normalizedX && directionY == normalizedY)
+                {
+                    return tuple;
+                }
+            }
+            
+            return _directionsAround[0];
+        }
 
         protected override void Start()
         {
@@ -37,23 +71,33 @@ namespace Characters
                 HandleLightDamage();
             }
             
-            else if (lightLevel >= minLightLevelToBlock)
+            else if (lightLevel >= minLightLevelToBlock && CheckIfPlayerHasMoreLight())
             {
-                //TODO: Check if current direction has darkest light.
-                
                 HandleIfLightBorder();
             }
 
             else base.UpdateCustomBehaviour();
         }
 
-        private void HandleIfLightBorder()
+        private bool CheckIfPlayerHasMoreLight()
+        {
+            var direction = GetDirectionToTarget();
+            var intensityInDirection = GetDirectionPairFrom(direction).Item2;
+            
+            return lightLevel <= intensityInDirection;
+        }
+
+        private bool HandleIfLightBorder()
         {
             //TODO: Just stay and wait for opportunity
+            
+            //TODO: Run scream and special animation
             
             ServeGravity();
             FaceToTarget();
             animator.SetFloat(VelocityHash, 0);
+
+            return true;
         }
 
         private void HandleLightDamage()
@@ -86,22 +130,15 @@ namespace Characters
             RenderTexture.ReleaseTemporary(temporary);
             
             lightLevel = GetIntensityFromPixel(texture2D, texture2D.width / 2, texture2D.height / 2);
-            darkestDirection = GetDarkestDirection(texture2D);
+            
+            CalculateLightIntensityAround(texture2D);
             
             Destroy(texture2D);
         }
 
-        private float GetIntensityFromPixel(Texture2D texture2D, int x, int y)
+        private void CalculateLightIntensityAround(Texture2D texture2D)
         {
-            Color32 pixel = texture2D.GetPixel(x, y);
-            
-            return (0.2126f * pixel.r) + (0.7152f * pixel.g) + (0.0722f * pixel.b);
-        }
-        
-        //TODO: Get all light intensities from directions
-
-        private Vector3 GetDarkestDirection(Texture2D texture2D)
-        {
+            //(FORWARD + LEFT) | (FORWARD + RIGHT) | (BACK + LEFT) | (BACK + RIGHT)
             var pixelCoordinatesToCheck = new List<Vector2>
             {
                 new(0, 0),
@@ -110,24 +147,51 @@ namespace Characters
                 new(texture2D.width - 1, texture2D.height - 1),
             };
             
-            //FORWARD|LEFT , FORWARD|RIGHT , BACKWARD|LEFT , BACKWARD|RIGHT
-            
-            //FORWARD|LEFT , FORWARD|RIGHT -> FORWARD
-            //FORWARD|LEFT , BACKWARD|LEFT -> LEFT
-            //FORWARD|RIGHT , BACKWARD|RIGHT -> RIGHT
-            //BACKWARD|LEFT , BACKWARD|RIGHT -> BACKWARD
-
-            foreach (var pixel in pixelCoordinatesToCheck)
+            for(var i = 0; i < pixelCoordinatesToCheck.Count; i++)
             {
+                var pixel = pixelCoordinatesToCheck[i];
                 var intensity = GetIntensityFromPixel(texture2D, (int)pixel.x, (int)pixel.y);
+                
+                SetLightIntensity(i, intensity);
             }
+
+            //  ((FORWARD + LEFT)  , (FORWARD + RIGHT))  -> FORWARD
+            SetLightIntensity(4, GetAverageIntensityFrom(0, 1)); 
+            //  ((FORWARD + LEFT)  , (BACKWARD + LEFT))  -> LEFT
+            SetLightIntensity(5, GetAverageIntensityFrom(0, 2));
+            //  ((FORWARD + RIGHT) , (BACKWARD + RIGHT)) -> RIGHT
+            SetLightIntensity(6, GetAverageIntensityFrom(1, 3));
+            //  ((BACKWARD + LEFT) , (BACKWARD + RIGHT)) -> BACKWARD
+            SetLightIntensity(7, GetAverageIntensityFrom(2, 3));
             
-            //TODO: Get all pixels from the corners
-            //TODO: Get light intensities to check darkest diagonals
-            //TODO: Get two corners and divide by 2 to get straight directions
-            //TODO: Get darkest direction
+            darkestDirection = GetDarkestDirection();
+        }
+        
+        private static float GetIntensityFromPixel(Texture2D texture2D, int x, int y)
+        {
+            Color32 pixel = texture2D.GetPixel(x, y);
             
-            return Vector3.zero;
+            return (0.2126f * pixel.r) + (0.7152f * pixel.g) + (0.0722f * pixel.b);
+        }
+
+        private void SetLightIntensity(int index, float intensity)
+        {
+            var tuple = _directionsAround[index];
+            tuple.intensity = intensity;
+
+            _directionsAround[index] = tuple;
+        }
+
+        private float GetAverageIntensityFrom(int index1, int index2)
+        {
+            return (_directionsAround[index1].intensity + _directionsAround[index2].intensity) / 2f;
+        }
+
+        private Vector3 GetDarkestDirection()
+        {
+            var min = _directionsAround.OrderByDescending(it => it.intensity).First();
+            
+            return min.direction;
         }
     }
 }

@@ -136,7 +136,7 @@ namespace Characters
             var distance = Vector2.Distance(targetToReach, position2D);
             if (distance > 1.5f)
             {
-                GoToTarget(position2D);
+                GoToTarget();
             }
 
             else HandleDestinationReached();
@@ -151,16 +151,16 @@ namespace Characters
             _characterController.Move(new Vector3(0f, verticalVelocity, 0f));
         }
 
-        private void GoToTarget(Vector2 position2D)
+        private void GoToTarget()
         {
-            var direction = (targetToReach - position2D).normalized;
+            var direction = GetDirectionToTarget();
 
             var velocity = _foundPlayer ? runSpeed : walkSpeed;
-            position2D = direction * velocity * Time.deltaTime;
+            var positionMove = direction * velocity * Time.deltaTime;
             
             animator.SetFloat(VelocityHash, velocity);
 
-            _characterController.Move(new Vector3(position2D.x, 0, position2D.y));
+            _characterController.Move(new Vector3(positionMove.x, 0, positionMove.y));
         }
         
         private void HandleDestinationReached()
@@ -235,6 +235,13 @@ namespace Characters
             yield return new WaitForSeconds(_attackDuration);
             
             _attackCoroutineObject = null;
+        }
+
+        protected Vector2 GetDirectionToTarget()
+        {
+            var position2D = ConvertToVector2(transform.position);
+            
+            return (targetToReach - position2D).normalized;
         }
         
         protected void FaceToTarget()
