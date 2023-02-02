@@ -34,9 +34,9 @@ namespace Characters
         private List<Vector2> _waypoints;
         private int _currentWaypointIndex = 0;
         
-        private static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
-        private static readonly int VelocityHash = Animator.StringToHash("Velocity");
-        private static readonly int AttackHash = Animator.StringToHash("Attack");
+        protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
+        protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
+        protected static readonly int AttackHash = Animator.StringToHash("Attack");
 
         protected override void Start()
         {
@@ -142,7 +142,7 @@ namespace Characters
             else HandleDestinationReached();
         }
         
-        private void ServeGravity()
+        protected void ServeGravity()
         {
             var verticalVelocity = 0f;
             if (!_characterController.isGrounded)
@@ -237,7 +237,7 @@ namespace Characters
             _attackCoroutineObject = null;
         }
         
-        private void FaceToTarget()
+        protected void FaceToTarget()
         {
             var position2D = ConvertToVector2(transform.position);
             var direction = (targetToReach - position2D).normalized;

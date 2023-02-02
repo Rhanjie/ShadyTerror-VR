@@ -8,6 +8,9 @@ namespace Characters
         private RenderTexture _sourceTexture;
 
         public Camera lightCalculatorCamera;
+        public float minLightLevelToBlock = 10f;
+        public float minLightLevelToDamage = 30f;
+        
         public float lightLevel;
 
         protected override void Start()
@@ -23,34 +26,61 @@ namespace Characters
 
         public override void UpdateCustomBehaviour()
         {
-            //TODO: Count light
-
             lightLevel = CalculateLight();
+
+            if (lightLevel >= minLightLevelToDamage)
+            {
+                HandleLightDamage();
+            }
             
-            if (lightLevel < 0.1f)
-                base.UpdateCustomBehaviour();
+            else if (lightLevel >= minLightLevelToBlock)
+            {
+                HandleIfLightBorder();
+            }
+
+            else base.UpdateCustomBehaviour();
+        }
+
+        private void HandleIfLightBorder()
+        {
+            //TODO: Just stay and wait for opportunity
+            
+            ServeGravity();
+            FaceToTarget();
+            animator.SetFloat(VelocityHash, 0);
+        }
+
+        private void HandleLightDamage()
+        {
+            //TODO: Find darkest direction and jump there
+            
+            ServeGravity();
+            FaceToTarget();
+            animator.SetFloat(VelocityHash, 0);
+            
+            //Hit();
         }
 
         private float CalculateLight()
         {
-            var tmp = RenderTexture.GetTemporary(
+            var temporary = RenderTexture.GetTemporary(
                 _sourceTexture.width, _sourceTexture.height, 0,
                 RenderTextureFormat.Default, RenderTextureReadWrite.Linear
             );
             
-            Graphics.Blit(_sourceTexture, tmp);
+            Graphics.Blit(_sourceTexture, temporary);
             var previous = RenderTexture.active;
-            RenderTexture.active = tmp;
+            RenderTexture.active = temporary;
             
-            var myTexture2D = new Texture2D(_sourceTexture.width, _sourceTexture.height);
-            myTexture2D.ReadPixels(new Rect(0, 0, tmp.width, tmp.height), 0, 0);
-            myTexture2D.Apply();
+            var texture2D = new Texture2D(_sourceTexture.width, _sourceTexture.height);
+            texture2D.ReadPixels(new Rect(0, 0, temporary.width, temporary.height), 0, 0);
+            texture2D.Apply();
             
             RenderTexture.active = previous;
-            RenderTexture.ReleaseTemporary(tmp);
+            RenderTexture.ReleaseTemporary(temporary);
             
-            Color32 centerPixel = myTexture2D.GetPixel(myTexture2D.width / 2, myTexture2D.height / 2);
-            Destroy(myTexture2D);
+            Color32 centerPixel = texture2D.GetPixel(texture2D.width / 2, texture2D.height / 2);
+            Destroy(texture2D);
 
             return (0.2126f * centerPixel.r) + (0.7152f * centerPixel.g) + (0.0722f * centerPixel.b);
         }

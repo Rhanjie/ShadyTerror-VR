@@ -414,6 +414,8 @@ MonoBehaviour:
   walkSpeed: 0
   runSpeed: 0
   lightCalculatorCamera: {fileID: 1597477403}
+  minLightLevelToBlock: 10
+  minLightLevelToDamage: 30
   lightLevel: 0
 --- !u!143 &196050127
 CharacterController:
