@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -12,6 +13,7 @@ namespace Characters
         public float minLightLevelToDamage = 30f;
         
         public float lightLevel;
+        public Vector3 darkestDirection;
 
         protected override void Start()
         {
@@ -26,15 +28,19 @@ namespace Characters
 
         public override void UpdateCustomBehaviour()
         {
-            lightLevel = CalculateLight();
+            CalculateLightIntensity();
 
             if (lightLevel >= minLightLevelToDamage)
             {
+                //TODO: Jump to darkest area to avoid light
+                
                 HandleLightDamage();
             }
             
             else if (lightLevel >= minLightLevelToBlock)
             {
+                //TODO: Check if current direction has darkest light.
+                
                 HandleIfLightBorder();
             }
 
@@ -61,7 +67,7 @@ namespace Characters
             //Hit();
         }
 
-        private float CalculateLight()
+        private void CalculateLightIntensity()
         {
             var temporary = RenderTexture.GetTemporary(
                 _sourceTexture.width, _sourceTexture.height, 0,
@@ -79,10 +85,49 @@ namespace Characters
             RenderTexture.active = previous;
             RenderTexture.ReleaseTemporary(temporary);
             
-            Color32 centerPixel = texture2D.GetPixel(texture2D.width / 2, texture2D.height / 2);
+            lightLevel = GetIntensityFromPixel(texture2D, texture2D.width / 2, texture2D.height / 2);
+            darkestDirection = GetDarkestDirection(texture2D);
+            
             Destroy(texture2D);
+        }
 
-            return (0.2126f * centerPixel.r) + (0.7152f * centerPixel.g) + (0.0722f * centerPixel.b);
+        private float GetIntensityFromPixel(Texture2D texture2D, int x, int y)
+        {
+            Color32 pixel = texture2D.GetPixel(x, y);
+            
+            return (0.2126f * pixel.r) + (0.7152f * pixel.g) + (0.0722f * pixel.b);
+        }
+        
+        //TODO: Get all light intensities from directions
+
+        private Vector3 GetDarkestDirection(Texture2D texture2D)
+        {
+            var pixelCoordinatesToCheck = new List<Vector2>
+            {
+                new(0, 0),
+                new(texture2D.width - 1, 0),
+                new(0, texture2D.height - 1),
+                new(texture2D.width - 1, texture2D.height - 1),
+            };
+            
+            //FORWARD|LEFT , FORWARD|RIGHT , BACKWARD|LEFT , BACKWARD|RIGHT
+            
+            //FORWARD|LEFT , FORWARD|RIGHT -> FORWARD
+            //FORWARD|LEFT , BACKWARD|LEFT -> LEFT
+            //FORWARD|RIGHT , BACKWARD|RIGHT -> RIGHT
+            //BACKWARD|LEFT , BACKWARD|RIGHT -> BACKWARD
+
+            foreach (var pixel in pixelCoordinatesToCheck)
+            {
+                var intensity = GetIntensityFromPixel(texture2D, (int)pixel.x, (int)pixel.y);
+            }
+            
+            //TODO: Get all pixels from the corners
+            //TODO: Get light intensities to check darkest diagonals
+            //TODO: Get two corners and divide by 2 to get straight directions
+            //TODO: Get darkest direction
+            
+            return Vector3.zero;
         }
     }
 }
