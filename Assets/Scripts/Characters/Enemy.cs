@@ -118,11 +118,14 @@ namespace Characters
         {
             FaceToTarget();
             
+            
             var position2D = ConvertToVector2(transform.position);
             var distance = Vector2.Distance(targetToReach, position2D);
             if (distance > 1.5f)
             {
-                GoToTarget();
+                var direction = GetDirectionToTarget();
+                
+                GoToDirection(direction);
             }
 
             else HandleDestinationReached();
@@ -137,12 +140,10 @@ namespace Characters
             _characterController.Move(new Vector3(0f, verticalVelocity, 0f));
         }
 
-        private void GoToTarget()
+        protected void GoToDirection(Vector2 direction)
         {
-            var direction = GetDirectionToTarget();
-
             var velocity = foundPlayer ? runSpeed : walkSpeed;
-            var positionMove = direction * velocity * Time.deltaTime;
+            var positionMove = direction * (velocity * Time.deltaTime);
             
             animator.SetFloat(VelocityHash, velocity);
 

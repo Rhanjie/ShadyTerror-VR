@@ -12,9 +12,10 @@ namespace Characters
 
         public Camera lightCalculatorCamera;
         public float minLightLevelToBlock = 10f;
+        public float minLightLevelToBack = 15f;
         public float minLightLevelToDamage = 30f;
         
-        public float lightLevel;
+        public float lightIntensityLevel;
         public Vector3 darkestDirection;
         
         private readonly List<(Vector3 direction, float intensity)> _directionsAround = new()
@@ -55,32 +56,41 @@ namespace Characters
                     targetToReach = _waypoints[_currentWaypointIndex];
             }
 
-            if (lightLevel >= minLightLevelToDamage)
+            if (lightIntensityLevel >= minLightLevelToDamage)
             {
                 //TODO: Jump to darkest area to avoid light
                 
                 HandleLightDamage();
             }
-            
-            else if (lightLevel >= minLightLevelToBlock && CheckIfPlayerHasMoreLight())
+
+            if (lightIntensityLevel >= minLightLevelToBack)
             {
-                HandleIfLightBorder();
+                HandleBackingAwayFromLight();
+            }
+
+            else if (lightIntensityLevel >= minLightLevelToBlock && CheckIfPlayerHasMoreLight())
+            {
+                StopRunOperation();
             }
 
             else if (_attackCoroutineObject == null)
                 UpdateWalkRoutine();
         }
 
-        private bool HandleIfLightBorder()
+        private void StopRunOperation()
         {
             //TODO: Just stay and wait for opportunity
-            
             //TODO: Run scream and special animation
             
             FaceToTarget();
             animator.SetFloat(VelocityHash, 0);
+        }
 
-            return true;
+        private void HandleBackingAwayFromLight()
+        {
+            //var reversedDirection = -GetDirectionToTarget();
+            
+            GoToDirection(darkestDirection);
         }
 
         private void HandleLightDamage()
@@ -98,7 +108,7 @@ namespace Characters
             var direction = GetDirectionToTarget();
             var intensityInDirection = GetDirectionPairFrom(direction).Item2;
 
-            return lightLevel <= intensityInDirection;
+            return lightIntensityLevel <= intensityInDirection;
         }
         
         private (Vector3, float) GetDirectionPairFrom(Vector2 direction2D)
@@ -138,8 +148,6 @@ namespace Characters
             RenderTexture.active = previous;
             RenderTexture.ReleaseTemporary(temporary);
             
-            lightLevel = GetIntensityFromPixel(texture2D, texture2D.width / 2, texture2D.height / 2);
-            
             CalculateLightIntensityAround(texture2D);
             
             Destroy(texture2D);
@@ -159,6 +167,9 @@ namespace Characters
                 new(offset, height - offset - 1),
                 new(width - offset - 1, height - offset - 1),
             };
+            
+            //Main light level
+            lightIntensityLevel = GetIntensityFromPixel(texture2D, texture2D.width / 2, texture2D.height / 2);
             
             for(var i = 0; i < pixelCoordinatesToCheck.Count; i++)
             {
@@ -202,7 +213,7 @@ namespace Characters
 
         private Vector3 GetDarkestDirection()
         {
-            var min = _directionsAround.OrderByDescending(it => it.intensity).First();
+            var min = _directionsAround.OrderBy(it => it.intensity).First();
             
             return min.direction;
         }
