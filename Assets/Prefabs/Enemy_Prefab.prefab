@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 1126745329}
   - component: {fileID: 1126745328}
   m_Layer: 27
-  m_Name: Box
+  m_Name: LightCatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ MeshRenderer:
   m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 14c9a0ee49c0ece4598e27c0423af6c9, type: 2}
+  - {fileID: 2100000, guid: d72ae2d416a17d448adef36e59401ed0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -174,8 +174,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 10
+  near clip plane: 3.35
+  far clip plane: 3.65
   field of view: 60
   orthographic: 1
   orthographic size: 0.3
@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 948306977931921366}
   - component: {fileID: 608674403152631685}
   m_Layer: 27
-  m_Name: Box_01
+  m_Name: LightCatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -614,7 +614,7 @@ MeshRenderer:
   m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 14c9a0ee49c0ece4598e27c0423af6c9, type: 2}
+  - {fileID: 2100000, guid: d72ae2d416a17d448adef36e59401ed0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 4002581003447800205}
   - component: {fileID: 7630950001766922101}
   m_Layer: 27
-  m_Name: Box_02
+  m_Name: LightCatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -697,7 +697,7 @@ MeshRenderer:
   m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 14c9a0ee49c0ece4598e27c0423af6c9, type: 2}
+  - {fileID: 2100000, guid: d72ae2d416a17d448adef36e59401ed0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -731,7 +731,7 @@ GameObject:
   - component: {fileID: 301477094740778938}
   - component: {fileID: 2413311044327517016}
   m_Layer: 27
-  m_Name: Box_03
+  m_Name: LightCatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -780,7 +780,7 @@ MeshRenderer:
   m_RenderingLayerMask: 2
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 14c9a0ee49c0ece4598e27c0423af6c9, type: 2}
+  - {fileID: 2100000, guid: d72ae2d416a17d448adef36e59401ed0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
