@@ -19,20 +19,20 @@ namespace Characters
         [SerializeField] private float walkSpeed;
         [SerializeField] private float runSpeed;
         
-        private float _visionLength;
-        private bool _foundPlayer;
-        private float _attackDuration;
+        protected float visionLength;
+        protected bool foundPlayer;
+        protected float attackDuration;
 
         private CharacterController _characterController;
         private Renderer _renderer;
-        private Coroutine _attackCoroutineObject;
+        protected Coroutine _attackCoroutineObject;
         private AudioSource audioSource;
         private GameObject player;
-        private Vector2 targetToReach;
+        protected Vector2 targetToReach;
         private Func<Vector3> randomPositionMethod;
 
-        private List<Vector2> _waypoints;
-        private int _currentWaypointIndex = 0;
+        protected List<Vector2> _waypoints;
+        protected int _currentWaypointIndex = 0;
         
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
@@ -44,10 +44,10 @@ namespace Characters
 
             walkSpeed = Random.Range(0.2f, 2f);
             runSpeed = Random.Range(3, 5);
-            _visionLength = 10f;
+            visionLength = 10f;
 
             _waypoints = GetWaypoints();
-            _attackDuration = GetAttackDuration();
+            attackDuration = GetAttackDuration();
 
             _characterController = GetComponent<CharacterController>();
             _renderer = GetComponent<Renderer>();
@@ -89,46 +89,32 @@ namespace Characters
 
         public override void UpdateCustomBehaviour()
         {
-            ServeGravity();
             
-            if (_foundPlayer || TryToFindTarget())
-                UpdateAttackRoutine();
-
-            if (!_foundPlayer)
-            {
-                if (_waypoints.Count == 0)
-                    return;
-                
-                targetToReach = _waypoints[_currentWaypointIndex];
-            }
-            
-            if (_attackCoroutineObject == null)
-                UpdateWalkRoutine();
         }
 
-        private bool TryToFindTarget()
+        protected bool TryToFindTarget()
         {
             var playerPosition = ConvertToVector2(player.transform.position);
             var distance = Vector3.Distance(playerPosition, transform.position);
             
             //TODO: THROW RAYCAST
             
-            return distance <= _visionLength;
+            return distance <= visionLength;
         }
 
-        private void UpdateAttackRoutine()
+        protected void UpdateAttackRoutine()
         {
-            if (!_foundPlayer)
+            if (!foundPlayer)
             {
                 PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
                 
-                _foundPlayer = true;
+                foundPlayer = true;
             }
 
             targetToReach = ConvertToVector2(player.transform.position);
         }
 
-        private void UpdateWalkRoutine()
+        protected void UpdateWalkRoutine()
         {
             FaceToTarget();
             
@@ -155,7 +141,7 @@ namespace Characters
         {
             var direction = GetDirectionToTarget();
 
-            var velocity = _foundPlayer ? runSpeed : walkSpeed;
+            var velocity = foundPlayer ? runSpeed : walkSpeed;
             var positionMove = direction * velocity * Time.deltaTime;
             
             animator.SetFloat(VelocityHash, velocity);
@@ -167,7 +153,7 @@ namespace Characters
         {
             animator.SetFloat(VelocityHash, 0);
             
-            if (_foundPlayer)
+            if (foundPlayer)
             {
                 _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
             }
@@ -232,7 +218,7 @@ namespace Characters
             
             Attack();
             
-            yield return new WaitForSeconds(_attackDuration);
+            yield return new WaitForSeconds(attackDuration);
             
             _attackCoroutineObject = null;
         }

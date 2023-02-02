@@ -30,25 +30,6 @@ namespace Characters
             (Vector3.right, 255),
         };
 
-        private (Vector3, float) GetDirectionPairFrom(Vector2 direction2D)
-        {
-            var normalizedX = (int)Math.Round(direction2D.x);
-            var normalizedY = (int)Math.Round(direction2D.y);
-
-            foreach (var tuple in _directionsAround)
-            {
-                var directionX = (int)tuple.direction.x;
-                var directionY = (int)tuple.direction.y;
-                
-                if (directionX == normalizedX && directionY == normalizedY)
-                {
-                    return tuple;
-                }
-            }
-            
-            return _directionsAround[0];
-        }
-
         protected override void Start()
         {
             base.Start();
@@ -62,7 +43,17 @@ namespace Characters
 
         public override void UpdateCustomBehaviour()
         {
+            ServeGravity();
             CalculateLightIntensity();
+            
+            if (foundPlayer || TryToFindTarget())
+                UpdateAttackRoutine();
+
+            if (!foundPlayer)
+            {
+                if (_waypoints.Count != 0)
+                    targetToReach = _waypoints[_currentWaypointIndex];
+            }
 
             if (lightLevel >= minLightLevelToDamage)
             {
@@ -76,15 +67,8 @@ namespace Characters
                 HandleIfLightBorder();
             }
 
-            else base.UpdateCustomBehaviour();
-        }
-
-        private bool CheckIfPlayerHasMoreLight()
-        {
-            var direction = GetDirectionToTarget();
-            var intensityInDirection = GetDirectionPairFrom(direction).Item2;
-            
-            return lightLevel <= intensityInDirection;
+            else if (_attackCoroutineObject == null)
+                UpdateWalkRoutine();
         }
 
         private bool HandleIfLightBorder()
@@ -93,7 +77,6 @@ namespace Characters
             
             //TODO: Run scream and special animation
             
-            ServeGravity();
             FaceToTarget();
             animator.SetFloat(VelocityHash, 0);
 
@@ -104,11 +87,37 @@ namespace Characters
         {
             //TODO: Find darkest direction and jump there
             
-            ServeGravity();
             FaceToTarget();
             animator.SetFloat(VelocityHash, 0);
             
             //Hit();
+        }
+        
+        private bool CheckIfPlayerHasMoreLight()
+        {
+            var direction = GetDirectionToTarget();
+            var intensityInDirection = GetDirectionPairFrom(direction).Item2;
+
+            return lightLevel <= intensityInDirection;
+        }
+        
+        private (Vector3, float) GetDirectionPairFrom(Vector2 direction2D)
+        {
+            var normalizedX = (int)Math.Round(direction2D.x);
+            var normalizedZ = (int)Math.Round(direction2D.y);
+
+            foreach (var tuple in _directionsAround)
+            {
+                var directionX = (int)tuple.direction.x;
+                var directionZ = (int)tuple.direction.z;
+                
+                if (directionX == normalizedX && directionZ == normalizedZ)
+                {
+                    return tuple;
+                }
+            }
+            
+            return _directionsAround[0];
         }
 
         private void CalculateLightIntensity()
@@ -138,13 +147,17 @@ namespace Characters
 
         private void CalculateLightIntensityAround(Texture2D texture2D)
         {
+            const int offset = 4;
+            var width = texture2D.width;
+            var height = texture2D.height;
+            
             //(FORWARD + LEFT) | (FORWARD + RIGHT) | (BACK + LEFT) | (BACK + RIGHT)
             var pixelCoordinatesToCheck = new List<Vector2>
             {
-                new(0, 0),
-                new(texture2D.width - 1, 0),
-                new(0, texture2D.height - 1),
-                new(texture2D.width - 1, texture2D.height - 1),
+                new(offset, offset),
+                new(width - offset - 1, offset),
+                new(offset, height - offset - 1),
+                new(width - offset - 1, height - offset - 1),
             };
             
             for(var i = 0; i < pixelCoordinatesToCheck.Count; i++)
