@@ -318,7 +318,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3, y: 1.3, z: 1.3}
+  m_Size: {x: 1.4, y: 1.4, z: 1.4}
   m_Center: {x: 0, y: 0, z: -0.000003695488}
 --- !u!1 &3495678310037003643
 GameObject:
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 1
   m_LightLayerMask: 3
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
+  m_CustomShadowLayers: 1
+  m_ShadowLayerMask: 2
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
