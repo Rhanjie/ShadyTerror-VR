@@ -7,17 +7,10 @@ namespace Characters
     public abstract class Character : MonoBehaviour, ICharacter
     {
         [Header("References")]
-        [SerializeField]
-        protected Transform attackPoint;
-        
-        [SerializeField]
-        protected TrailRenderer attackTrail;
-        
-        [Space(10)]
-        [Header("Settings")]
-        [SerializeField]
-        protected int maxHealth = 5;
+        [SerializeField] protected Transform attackPoint;
+        [SerializeField] protected TrailRenderer attackTrail;
 
+        protected int maxHealth = 5;
         protected int currentHealth;
         protected bool isHeadshot = false;
         protected bool isDead;

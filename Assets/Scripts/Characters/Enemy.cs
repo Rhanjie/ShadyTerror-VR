@@ -9,9 +9,9 @@ namespace Characters
 {
     public class Enemy : Character
     {
-        [Header("Custom")]
         [SerializeField] protected AudioClip laugh;
         [SerializeField] protected AudioClip scream;
+        [SerializeField] protected Transform transformToRotate;
         [SerializeField] protected Transform waypointsParent;
         [SerializeField] protected Animator animator;
         
@@ -48,6 +48,9 @@ namespace Characters
 
             _waypoints = GetWaypoints();
             attackDuration = GetAttackDuration();
+            
+            if (transformToRotate == null)
+                transformToRotate = transform;
 
             _characterController = GetComponent<CharacterController>();
             _renderer = GetComponent<Renderer>();
@@ -237,11 +240,11 @@ namespace Characters
             var direction = (targetToReach - position2D).normalized;
             var direction3D = new Vector3(direction.x, 0f, direction.y);
             
-            var cachedRotation = transform.rotation;
+            var cachedRotation = transformToRotate.rotation;
             var lookRotation = Quaternion.LookRotation(direction3D);
             
             cachedRotation = Quaternion.Slerp(cachedRotation, lookRotation, Time.deltaTime * 4f);
-            transform.rotation = cachedRotation;
+            transformToRotate.rotation = cachedRotation;
         }
 
         protected void PlaySoundWithRandomPitch(AudioClip clip, float minPitch, float maxPitch)

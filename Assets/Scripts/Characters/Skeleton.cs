@@ -63,7 +63,7 @@ namespace Characters
                 HandleLightDamage();
             }
 
-            if (lightIntensityLevel >= minLightLevelToBack)
+            else if (lightIntensityLevel >= minLightLevelToBack)
             {
                 HandleBackingAwayFromLight();
             }

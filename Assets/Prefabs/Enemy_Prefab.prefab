@@ -56,9 +56,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126745326}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0000003054738, y: 0.00000021855037, z: 2.8459756}
-  m_LocalScale: {x: 0.400017, y: 0.032775156, z: 0.40001687}
+  m_LocalScale: {x: 0.400017, y: 0.400017, z: 0.03277516}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1597477400}
@@ -307,16 +307,16 @@ MonoBehaviour:
   attackPoint: {fileID: 8272998750688570588}
   attackTrail: {fileID: 7569885399326528161, guid: 4a55f3677bcd16048a5cb67e808fb21b,
     type: 3}
-  maxHealth: 5
   laugh: {fileID: 8300000, guid: 2246de4ec148bf34db3b31b5d81432e6, type: 3}
   scream: {fileID: 8300000, guid: 76276043e2bc7ec43b05fe478833ef4c, type: 3}
+  transformToRotate: {fileID: 7422315137624251497}
   waypointsParent: {fileID: 2554138297807880950}
   animator: {fileID: 7422315137632039883}
   walkSpeed: 0
   runSpeed: 0
   lightCalculatorCamera: {fileID: 1597477403}
-  minLightLevelToBlock: 10
-  minLightLevelToBack: 15
+  minLightLevelToBlock: 5
+  minLightLevelToBack: 8
   minLightLevelToDamage: 30
   lightIntensityLevel: 0
   darkestDirection: {x: 0, y: 0, z: 0}
