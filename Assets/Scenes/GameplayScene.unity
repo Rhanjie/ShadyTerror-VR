@@ -19582,16 +19582,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FakePlayer_Prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 723204370873763495, guid: 8b5bc8f6d27ff564897cd17c0203d931,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 723204370873763495, guid: 8b5bc8f6d27ff564897cd17c0203d931,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5bc8f6d27ff564897cd17c0203d931, type: 3}
 --- !u!4 &3433825596006912024 stripped
@@ -19611,6 +19601,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XRPlayer_Main
+      objectReference: {fileID: 0}
+    - target: {fileID: 6051128400670645328, guid: 2f17eb67048f5fc499154e8cb2b669cd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6051128400670645335, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}

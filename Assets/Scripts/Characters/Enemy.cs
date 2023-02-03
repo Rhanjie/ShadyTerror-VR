@@ -34,6 +34,7 @@ namespace Characters
 
         protected List<Vector2> _waypoints;
         protected int _currentWaypointIndex = 0;
+        protected float _currentSpeed = 0f;
 
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
@@ -154,12 +155,18 @@ namespace Characters
 
         protected void GoToDirection(Vector2 direction)
         {
-            var velocity = foundPlayer ? runSpeed : walkSpeed;
-            var positionMove = direction * (velocity * Time.deltaTime);
-            
-            animator.SetFloat(VelocityHash, velocity);
+            var maxSpeed = foundPlayer ? runSpeed : walkSpeed;
 
+            _currentSpeed += 2f * Time.deltaTime;
+            if (_currentSpeed > maxSpeed)
+                _currentSpeed = maxSpeed;
+            
+            Debug.LogError(_currentSpeed);
+            
+            var positionMove = direction * (_currentSpeed * Time.deltaTime);
             _characterController.Move(new Vector3(positionMove.x, 0, positionMove.y));
+
+            animator.SetFloat(VelocityHash, _currentSpeed);
         }
         
         private void HandleDestinationReached()

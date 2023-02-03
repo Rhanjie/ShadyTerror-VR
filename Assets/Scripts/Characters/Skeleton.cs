@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -20,6 +21,7 @@ namespace Characters
         public Vector3 darkestDirection;
 
         private Coroutine _getHitCoroutine;
+        private readonly List<(Vector3 direction, float intensity)> _previousDarkestDirections = new();
         private readonly List<(Vector3 direction, float intensity)> _directionsAround = new()
         {
             (Vector3.forward + Vector3.left, 255),
@@ -42,6 +44,8 @@ namespace Characters
             
             _sourceTexture = new RenderTexture(32, 32, colorFormat, depthStencilFormat);
             lightCalculatorCamera.targetTexture = _sourceTexture;
+
+            SetRandomDataForPreviousDarkestDirections();
         }
 
         public override void UpdateCustomBehaviour()
@@ -58,17 +62,20 @@ namespace Characters
                     targetToReach = _waypoints[_currentWaypointIndex];
             }
 
+            var foundLightBug = FindLightBug();
+            if (foundLightBug)
+                _currentSpeed = 0f;
+
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
-                //TODO: Jump to darkest area to avoid light
-                
                 if (_getHitCoroutine == null)
                     _getHitCoroutine = StartCoroutine(HandleLightDamage());
             }
 
             else if (lightIntensityLevel >= minLightLevelToBack)
             {
-                HandleBackingAwayFromLight();
+                if (!foundLightBug)
+                    HandleBackingAwayFromLight();
             }
 
             else if (lightIntensityLevel >= minLightLevelToBlock && CheckIfPlayerHasMoreLight())
@@ -76,7 +83,7 @@ namespace Characters
                 StopRunOperation();
             }
 
-            else if (_attackCoroutineObject == null)
+            else if (_attackCoroutineObject == null && !foundLightBug)
                 UpdateWalkRoutine();
         }
 
@@ -84,9 +91,11 @@ namespace Characters
         {
             //TODO: Just stay and wait for opportunity
             //TODO: Run scream and special animation
+
+            _currentSpeed = 0f;
             
             FaceToTarget();
-            animator.SetFloat(VelocityHash, 0);
+            animator.SetFloat(VelocityHash, _currentSpeed);
         }
 
         private void HandleBackingAwayFromLight()
@@ -215,11 +224,33 @@ namespace Characters
             return (_directionsAround[index1].intensity + _directionsAround[index2].intensity) / 2f;
         }
 
+        private void SetRandomDataForPreviousDarkestDirections()
+        {
+            for (var i = 0; i < 5; i++)
+                _previousDarkestDirections.Add((Vector3.zero, i));
+        }
+
         private Vector3 GetDarkestDirection()
         {
             var min = _directionsAround.OrderBy(it => it.intensity).First();
+
+            _previousDarkestDirections.Remove(_previousDarkestDirections.Last());
+            _previousDarkestDirections.Add(min);
             
             return min.direction;
+        }
+
+        private bool FindLightBug()
+        {
+            var lastIndex = _previousDarkestDirections.Count - 1;
+
+            if (_previousDarkestDirections[lastIndex] == _previousDarkestDirections[lastIndex - 2] &&
+                _previousDarkestDirections[lastIndex - 1] == _previousDarkestDirections[lastIndex - 3])
+                return true;
+
+            return false;
+
+            //last == last - 2 && last - 1 == last -3 = true
         }
     }
 }
