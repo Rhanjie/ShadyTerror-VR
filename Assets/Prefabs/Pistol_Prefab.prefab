@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8068911511280079236}
   - component: {fileID: 357371318072738895}
   - component: {fileID: 84470503}
+  - component: {fileID: 8804206711469915297}
   m_Layer: 0
   m_Name: Pistol_Prefab
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 40016817990468233}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.298, z: 1.128}
-  m_LocalScale: {x: 0.074999996, y: 0.074999996, z: 0.074999996}
+  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3578701580960881869}
@@ -74,7 +75,7 @@ MonoBehaviour:
   CopySettings: {fileID: 0}
   singleHandOnly: 1
   allowHeldSwapping: 1
-  instantGrab: 0
+  instantGrab: 1
   ignoreWeight: 0
   maintainGrabOffset: 0
   parentOnGrab: 1
@@ -104,7 +105,7 @@ MonoBehaviour:
   onSqueeze:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8804206711469915297}
+      - m_Target: {fileID: 2410945272243948284}
         m_TargetAssemblyTypeName: GunBehaviour, Assembly-CSharp
         m_MethodName: Shoot
         m_Mode: 1
@@ -413,6 +414,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8804206711469915297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40016817990468233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935aaf7da50abf94697c8d70a7a71efe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreMe: 0
+  instantPull: 0
+  grabType: 1
+  archMultiplier: 0.6
+  gravitationVelocity: 1
+  rotate: 1
+  rotationSpeed: 5
+  ignoreHighlights: 0
+  targetedMaterial: {fileID: 0}
+  selectedMaterial: {fileID: 0}
+  showEvents: 1
+  OnPull:
+    m_PersistentCalls:
+      m_Calls: []
+  StartTargeting:
+    m_PersistentCalls:
+      m_Calls: []
+  StopTargeting:
+    m_PersistentCalls:
+      m_Calls: []
+  StartSelecting:
+    m_PersistentCalls:
+      m_Calls: []
+  StopSelecting:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &559327374476447164
 GameObject:
   m_ObjectHideFlags: 0
@@ -1888,7 +1927,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3578701580960881869}
-  - component: {fileID: 8804206711469915297}
+  - component: {fileID: 2410945272243948284}
   - component: {fileID: 1130112588}
   m_Layer: 0
   m_Name: Pistol_Empty
@@ -1926,7 +1965,7 @@ Transform:
   m_Father: {fileID: 848360880707819571}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8804206711469915297
+--- !u!114 &2410945272243948284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1948,6 +1987,9 @@ MonoBehaviour:
   minGunScatter: 0
   maxGunScatter: 0.05
   shootingSpeed: 120
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 1921
 --- !u!82 &1130112588
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1959,7 +2001,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 817b56a96fbbc104f9e7196090ed9c03, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

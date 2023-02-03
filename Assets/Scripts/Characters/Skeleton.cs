@@ -63,8 +63,6 @@ namespace Characters
             }
 
             var foundLightBug = CheckIfFoundLightBug();
-            //if (foundLightBug)
-            //    _currentSpeed = 0f;
 
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
