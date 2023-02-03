@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 3495678309077382542}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.596, z: 0}
-  m_LocalScale: {x: 1.99239, y: 0.20423886, z: 1.99239}
+  m_LocalScale: {x: 2.5, y: 0.20423886, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3495678310037003642}
@@ -318,7 +318,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.99999994, y: 1.0000001, z: 0.99999994}
+  m_Size: {x: 1.4, y: 1.4, z: 1.4}
   m_Center: {x: 0, y: 0, z: -0.000003695488}
 --- !u!1 &3495678310037003643
 GameObject:
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 1
   m_LightLayerMask: 3
-  m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
+  m_CustomShadowLayers: 1
+  m_ShadowLayerMask: 2
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}

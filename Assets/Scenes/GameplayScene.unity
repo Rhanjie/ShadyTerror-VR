@@ -350,7 +350,7 @@ PrefabInstance:
     - target: {fileID: 1283965391530412722, guid: fa22da97ec7eaee4e89784d1d9098ce6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.51
+      value: -13.96
       objectReference: {fileID: 0}
     - target: {fileID: 1283965391530412722, guid: fa22da97ec7eaee4e89784d1d9098ce6,
         type: 3}
@@ -360,7 +360,7 @@ PrefabInstance:
     - target: {fileID: 1283965391530412722, guid: fa22da97ec7eaee4e89784d1d9098ce6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.61
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: 1283965391530412722, guid: fa22da97ec7eaee4e89784d1d9098ce6,
         type: 3}
@@ -19696,6 +19696,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: FakePlayer_Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 723204370873763495, guid: 8b5bc8f6d27ff564897cd17c0203d931,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 723204370873763495, guid: 8b5bc8f6d27ff564897cd17c0203d931,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b5bc8f6d27ff564897cd17c0203d931, type: 3}
 --- !u!4 &3433825596006912024 stripped
@@ -19719,7 +19729,7 @@ PrefabInstance:
     - target: {fileID: 6051128400670645328, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6051128400670645335, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
@@ -20003,10 +20013,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 853782349}
     m_Modifications:
-    - target: {fileID: 1130112588, guid: cd2f9a74dd0b90642864870d190bc694, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 40016817990468233, guid: cd2f9a74dd0b90642864870d190bc694,
         type: 3}
       propertyPath: m_Name
@@ -20016,21 +20022,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 848360880707819571, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.075
-      objectReference: {fileID: 0}
-    - target: {fileID: 848360880707819571, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.075
-      objectReference: {fileID: 0}
-    - target: {fileID: 848360880707819571, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 848360880707819571, guid: cd2f9a74dd0b90642864870d190bc694,
         type: 3}
@@ -20087,95 +20078,11 @@ PrefabInstance:
       propertyPath: editorHand
       value: 
       objectReference: {fileID: 2087752736}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3578701580960881869, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8804206711469915297, guid: cd2f9a74dd0b90642864870d190bc694,
-        type: 3}
-      propertyPath: hittableLayers.m_Bits
-      value: 1921
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd2f9a74dd0b90642864870d190bc694, type: 3}
---- !u!1 &8804206711469915295 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 40016817990468233, guid: cd2f9a74dd0b90642864870d190bc694,
-    type: 3}
-  m_PrefabInstance: {fileID: 8804206711469915294}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8804206711469915296 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 848360880707819571, guid: cd2f9a74dd0b90642864870d190bc694,
     type: 3}
   m_PrefabInstance: {fileID: 8804206711469915294}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8804206711469915297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8804206711469915295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 935aaf7da50abf94697c8d70a7a71efe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreMe: 0
-  instantPull: 0
-  grabType: 1
-  archMultiplier: 0.6
-  gravitationVelocity: 1
-  rotate: 1
-  rotationSpeed: 5
-  ignoreHighlights: 0
-  targetedMaterial: {fileID: 0}
-  selectedMaterial: {fileID: 0}
-  showEvents: 1
-  OnPull:
-    m_PersistentCalls:
-      m_Calls: []
-  StartTargeting:
-    m_PersistentCalls:
-      m_Calls: []
-  StopTargeting:
-    m_PersistentCalls:
-      m_Calls: []
-  StartSelecting:
-    m_PersistentCalls:
-      m_Calls: []
-  StopSelecting:
-    m_PersistentCalls:
-      m_Calls: []
