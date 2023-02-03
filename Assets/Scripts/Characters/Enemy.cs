@@ -18,22 +18,23 @@ namespace Characters
         [Header("Debug")]
         [SerializeField] private float walkSpeed;
         [SerializeField] private float runSpeed;
+        [SerializeField] private float mass = 3.0f; // defines the character mass
         
         protected float visionLength;
         protected bool foundPlayer;
         protected float attackDuration;
 
-        private CharacterController _characterController;
-        private Renderer _renderer;
+        protected CharacterController _characterController;
         protected Coroutine _attackCoroutineObject;
         private AudioSource audioSource;
         private GameObject player;
         protected Vector2 targetToReach;
+        protected Vector3 _impact;
         private Func<Vector3> randomPositionMethod;
 
         protected List<Vector2> _waypoints;
         protected int _currentWaypointIndex = 0;
-        
+
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
         protected static readonly int AttackHash = Animator.StringToHash("Attack");
@@ -53,7 +54,6 @@ namespace Characters
                 transformToRotate = transform;
 
             _characterController = GetComponent<CharacterController>();
-            _renderer = GetComponent<Renderer>();
             audioSource = GetComponent<AudioSource>();
             
             var target = GameObject.FindWithTag("Player"); /*.GetComponent<PlayerBehaviour>()*/;
@@ -63,6 +63,16 @@ namespace Characters
             }
             
             player = target;
+        }
+        
+        protected override void Update()
+        {
+            if (_impact.magnitude > 0.2)
+                _characterController.Move(_impact * Time.deltaTime);
+            
+            _impact = Vector3.Lerp(_impact, Vector3.zero, 5*Time.deltaTime);
+            
+            base.Update();
         }
 
         private List<Vector2> GetWaypoints()
@@ -121,7 +131,6 @@ namespace Characters
         {
             FaceToTarget();
             
-            
             var position2D = ConvertToVector2(transform.position);
             var distance = Vector2.Distance(targetToReach, position2D);
             if (distance > 1.5f)
@@ -179,17 +188,23 @@ namespace Characters
         {
             yield return base.DieRoutine();
             
-            //targetToShoot.SendDeathMessage(isHeadshot);
-            StopCoroutine(_attackCoroutineObject);
+            if (_attackCoroutineObject != null)
+                StopCoroutine(_attackCoroutineObject);
             
             PlaySoundWithRandomPitch(scream, 0.9f, 1.1f);
-            
-            _characterController.attachedRigidbody.freezeRotation = false;
-            _characterController.attachedRigidbody.AddForce(-transform.forward * 50f);
+            AddImpact(-transform.forward, 50f);
 
             yield return DissolveRoutine(2);
 
             Destroy(gameObject);
+        }
+        
+        public void AddImpact(Vector3 direction, float force){
+            
+            if (direction.y < 0)
+                direction.y = -direction.y; // reflect down force on the ground
+            
+            _impact += (direction.normalized * force) / mass;
         }
 
         private IEnumerator DissolveRoutine(int seconds)
@@ -201,14 +216,7 @@ namespace Characters
             {
                 time += Time.deltaTime / seconds;
                 dissolvePower = Mathf.Lerp(1, 0, time);
-
-                //If enemy is half invisible then remove collisions
-                if (_characterController.attachedRigidbody.detectCollisions && time >= 0.5f)
-                {
-                    _characterController.attachedRigidbody.detectCollisions = false;
-                }
-
-                _renderer.material.SetFloat(DissolvePowerID, dissolvePower);
+                
                 yield return new WaitForEndOfFrame();
             }
 

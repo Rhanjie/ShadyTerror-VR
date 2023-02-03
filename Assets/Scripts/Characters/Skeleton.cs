@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,8 @@ namespace Characters
         
         public float lightIntensityLevel;
         public Vector3 darkestDirection;
-        
+
+        private Coroutine _getHitCoroutine;
         private readonly List<(Vector3 direction, float intensity)> _directionsAround = new()
         {
             (Vector3.forward + Vector3.left, 255),
@@ -60,7 +62,8 @@ namespace Characters
             {
                 //TODO: Jump to darkest area to avoid light
                 
-                HandleLightDamage();
+                if (_getHitCoroutine == null)
+                    _getHitCoroutine = StartCoroutine(HandleLightDamage());
             }
 
             else if (lightIntensityLevel >= minLightLevelToBack)
@@ -88,21 +91,22 @@ namespace Characters
 
         private void HandleBackingAwayFromLight()
         {
-            //var reversedDirection = -GetDirectionToTarget();
-            
             GoToDirection(darkestDirection);
         }
 
-        private void HandleLightDamage()
+        private IEnumerator HandleLightDamage()
         {
-            //TODO: Find darkest direction and jump there
+            AddImpact(darkestDirection, 50f);
             
             FaceToTarget();
             animator.SetFloat(VelocityHash, 0);
             
-            //Hit();
+            Hit("Body");
+
+            yield return new WaitForSeconds(2f);
+            _getHitCoroutine = null;
         }
-        
+
         private bool CheckIfPlayerHasMoreLight()
         {
             var direction = GetDirectionToTarget();
