@@ -62,19 +62,18 @@ namespace Characters
                     targetToReach = _waypoints[_currentWaypointIndex];
             }
 
-            var foundLightBug = FindLightBug();
+            var foundLightBug = CheckIfFoundLightBug();
             if (foundLightBug)
                 _currentSpeed = 0f;
 
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
-                if (_getHitCoroutine == null)
-                    _getHitCoroutine = StartCoroutine(HandleLightDamage());
+                _getHitCoroutine ??= StartCoroutine(HandleLightDamage());
             }
 
             else if (lightIntensityLevel >= minLightLevelToBack)
             {
-                if (!foundLightBug)
+                if (!foundLightBug) 
                     HandleBackingAwayFromLight();
             }
 
@@ -83,8 +82,11 @@ namespace Characters
                 StopRunOperation();
             }
 
-            else if (_attackCoroutineObject == null && !foundLightBug)
-                UpdateWalkRoutine();
+            else if (_attackCoroutineObject == null)
+            {
+                if (!foundLightBug)
+                    UpdateWalkRoutine();
+            }
         }
 
         private void StopRunOperation()
@@ -240,17 +242,14 @@ namespace Characters
             return min.direction;
         }
 
-        private bool FindLightBug()
+        private bool CheckIfFoundLightBug()
         {
             var lastIndex = _previousDarkestDirections.Count - 1;
+            var foundBug = 
+                _previousDarkestDirections[lastIndex] == _previousDarkestDirections[lastIndex - 2] &&
+                _previousDarkestDirections[lastIndex - 1] == _previousDarkestDirections[lastIndex - 3];
 
-            if (_previousDarkestDirections[lastIndex] == _previousDarkestDirections[lastIndex - 2] &&
-                _previousDarkestDirections[lastIndex - 1] == _previousDarkestDirections[lastIndex - 3])
-                return true;
-
-            return false;
-
-            //last == last - 2 && last - 1 == last -3 = true
+            return foundBug;
         }
     }
 }
