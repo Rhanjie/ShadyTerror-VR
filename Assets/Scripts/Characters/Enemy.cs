@@ -43,7 +43,7 @@ namespace Characters
         {
             base.Start();
 
-            walkSpeed = Random.Range(0.2f, 2f);
+            walkSpeed = Random.Range(0.4f, 1.5f);
             runSpeed = Random.Range(3, 5);
             visionLength = 10f;
 
@@ -158,8 +158,6 @@ namespace Characters
             _currentSpeed += 2f * Time.deltaTime;
             if (_currentSpeed > maxSpeed)
                 _currentSpeed = maxSpeed;
-            
-            Debug.LogError(_currentSpeed);
             
             var positionMove = direction * (_currentSpeed * Time.deltaTime);
             _characterController.Move(new Vector3(positionMove.x, 0, positionMove.y));
