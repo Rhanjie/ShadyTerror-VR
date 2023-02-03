@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Testable
   layers:
   - Default
   - TransparentFX
@@ -32,7 +34,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - LightCalculator
   - HandPlayer
   - Hand
   - Grabbable
