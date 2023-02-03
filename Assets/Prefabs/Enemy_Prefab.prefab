@@ -266,7 +266,8 @@ GameObject:
   - component: {fileID: 1283965391530412722}
   - component: {fileID: 995941016582502119}
   - component: {fileID: 196050127}
-  - component: {fileID: 593098394581724078}
+  - component: {fileID: 3127963745352804659}
+  - component: {fileID: 4008581426934329995}
   m_Layer: 7
   m_Name: Enemy_Prefab
   m_TagString: Enemy
@@ -307,6 +308,7 @@ MonoBehaviour:
   attackPoint: {fileID: 8272998750688570588}
   attackTrail: {fileID: 7569885399326528161, guid: 4a55f3677bcd16048a5cb67e808fb21b,
     type: 3}
+  audioManager: {fileID: 4008581426934329995}
   laugh: {fileID: 8300000, guid: 2246de4ec148bf34db3b31b5d81432e6, type: 3}
   scream: {fileID: 8300000, guid: 76276043e2bc7ec43b05fe478833ef4c, type: 3}
   transformToRotate: {fileID: 7422315137624251497}
@@ -314,6 +316,7 @@ MonoBehaviour:
   animator: {fileID: 7422315137632039883}
   walkSpeed: 0
   runSpeed: 0
+  mass: 3
   lightCalculatorCamera: {fileID: 1597477403}
   minLightLevelToBlock: 5
   minLightLevelToBack: 8
@@ -338,7 +341,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!82 &593098394581724078
+--- !u!82 &3127963745352804659
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -434,6 +437,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4008581426934329995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283965391530412728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8accae87128c0345af6442df47e4b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: iSeeYouVoice
+    sound: {fileID: 8300000, guid: 3dd04bbdf3d4bd04eb7a2b3b43201c68, type: 3}
+  - name: scream
+    sound: {fileID: 8300000, guid: 1845d2db267b6b24ba223bf1b1cdc828, type: 3}
+  - name: hitPlayer
+    sound: {fileID: 8300000, guid: 03bf0b14c0ac6d343b6b9aa53f214aee, type: 3}
+  - name: hitEnemy
+    sound: {fileID: 8300000, guid: 33e44dbab6fd7544fbff13b59e92838c, type: 3}
 --- !u!1 &4546850059765138707
 GameObject:
   m_ObjectHideFlags: 0

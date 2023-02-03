@@ -26,7 +26,6 @@ namespace Characters
 
         protected CharacterController _characterController;
         protected Coroutine _attackCoroutineObject;
-        private AudioSource audioSource;
         private GameObject player;
         protected Vector2 targetToReach;
         protected Vector3 _impact;
@@ -55,9 +54,8 @@ namespace Characters
                 transformToRotate = transform;
 
             _characterController = GetComponent<CharacterController>();
-            audioSource = GetComponent<AudioSource>();
-            
-            var target = GameObject.FindWithTag("Player"); /*.GetComponent<PlayerBehaviour>()*/;
+
+            var target = GameObject.FindWithTag("Player");
             if (target == null)
             {
                 throw new NotSupportedException("Not found player in the scene!");
@@ -72,6 +70,8 @@ namespace Characters
                 _characterController.Move(_impact * Time.deltaTime);
             
             _impact = Vector3.Lerp(_impact, Vector3.zero, 5*Time.deltaTime);
+            
+            FaceToTarget();
             
             base.Update();
         }
@@ -120,7 +120,7 @@ namespace Characters
         {
             if (!foundPlayer)
             {
-                PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
+                audioManager.PlaySoundWithRandomPitch("iSeeYouVoice", 0.9f, 1.1f);
                 
                 foundPlayer = true;
             }
@@ -130,8 +130,6 @@ namespace Characters
 
         protected void UpdateWalkRoutine()
         {
-            FaceToTarget();
-            
             var position2D = ConvertToVector2(transform.position);
             var distance = Vector2.Distance(targetToReach, position2D);
             if (distance > 1.5f)
@@ -198,7 +196,7 @@ namespace Characters
             if (_attackCoroutineObject != null)
                 StopCoroutine(_attackCoroutineObject);
             
-            PlaySoundWithRandomPitch(scream, 0.9f, 1.1f);
+            audioManager.PlaySoundWithRandomPitch("scream", 0.9f, 1.1f);
             AddImpact(-transform.forward, 50f);
 
             yield return DissolveRoutine(2);
@@ -233,7 +231,7 @@ namespace Characters
         private IEnumerator AttackRoutine()
         {
             animator.SetTrigger(AttackHash);
-            PlaySoundWithRandomPitch(laugh, 0.9f, 1.1f);
+            audioManager.PlaySoundWithRandomPitch("hitPlayer", 0.9f, 1.1f);
             
             Attack();
             
@@ -260,12 +258,6 @@ namespace Characters
             
             cachedRotation = Quaternion.Slerp(cachedRotation, lookRotation, Time.deltaTime * 4f);
             transformToRotate.rotation = cachedRotation;
-        }
-
-        protected void PlaySoundWithRandomPitch(AudioClip clip, float minPitch, float maxPitch)
-        {
-            audioSource.pitch = Random.Range(minPitch, maxPitch);
-            audioSource.PlayOneShot(clip);
         }
     }
 }

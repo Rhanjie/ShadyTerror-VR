@@ -9,6 +9,7 @@ namespace Characters
         [Header("References")]
         [SerializeField] protected Transform attackPoint;
         [SerializeField] protected TrailRenderer attackTrail;
+        [SerializeField] protected AudioManager audioManager;
 
         protected int maxHealth = 5;
         protected int currentHealth;

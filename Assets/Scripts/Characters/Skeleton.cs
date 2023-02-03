@@ -63,8 +63,8 @@ namespace Characters
             }
 
             var foundLightBug = CheckIfFoundLightBug();
-            if (foundLightBug)
-                _currentSpeed = 0f;
+            //if (foundLightBug)
+            //    _currentSpeed = 0f;
 
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
@@ -84,8 +84,8 @@ namespace Characters
 
             else if (_attackCoroutineObject == null)
             {
-                if (!foundLightBug)
-                    UpdateWalkRoutine();
+                //if (!foundLightBug)
+                UpdateWalkRoutine();
             }
         }
 
@@ -96,7 +96,6 @@ namespace Characters
 
             _currentSpeed = 0f;
             
-            FaceToTarget();
             animator.SetFloat(VelocityHash, _currentSpeed);
         }
 
@@ -109,12 +108,11 @@ namespace Characters
         {
             AddImpact(darkestDirection, 50f);
             
-            FaceToTarget();
             animator.SetFloat(VelocityHash, 0);
             
             Hit("Body");
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             _getHitCoroutine = null;
         }
 
@@ -236,7 +234,7 @@ namespace Characters
         {
             var min = _directionsAround.OrderBy(it => it.intensity).First();
 
-            _previousDarkestDirections.Remove(_previousDarkestDirections.Last());
+            _previousDarkestDirections.Remove(_previousDarkestDirections.First());
             _previousDarkestDirections.Add(min);
             
             return min.direction;
