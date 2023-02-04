@@ -1,34 +1,40 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class TorchBehaviour : MonoBehaviour
 {
     [SerializeField] private ParticleSystem fireParticles;
     [SerializeField] private MeshRenderer bulbRenderer;
-    
+    [SerializeField] private BulbDetector bulbDetector;
     [SerializeField] private Material lightMaterial;
     [SerializeField] private Material unlightMaterial;
+    
+    [SerializeField] private bool enabledOnStart;
 
     private Light _light;
 
-    private bool _isLit = true;
     private float _remainingValue = 100;
 
     private float _totalBulbVerticalScale;
-    
+
+    public bool IsLit { get; private set; } = true;
+
     private void Start()
     {
         _light = bulbRenderer.GetComponentInChildren<Light>();
         _totalBulbVerticalScale = bulbRenderer.transform.localScale.y;
+
+        IsLit = !enabledOnStart;
+        if (enabledOnStart)
+            Light();
+        else Unlight();
         
-        Unlight();
+        bulbDetector.Init(this);
     }
     
     private void Update()
     {
-        if (!_isLit)
+        if (!IsLit)
             return;
 
         //TODO: Update particle rotation
@@ -49,7 +55,7 @@ public class TorchBehaviour : MonoBehaviour
 
     public void Light()
     {
-        if (_isLit || _remainingValue <= 0)
+        if (IsLit || _remainingValue <= 0)
             return;
         
         ToggleLight(true);
@@ -57,7 +63,7 @@ public class TorchBehaviour : MonoBehaviour
     
     public void Unlight()
     {
-        if (!_isLit)
+        if (!IsLit)
             return;
 
         ToggleLight(false);
@@ -65,31 +71,15 @@ public class TorchBehaviour : MonoBehaviour
 
     private void ToggleLight(bool isActive)
     {
-        _isLit = isActive;
+        IsLit = isActive;
         
-        _light.enabled = _isLit;
-        bulbRenderer.material = _isLit
+        _light.enabled = IsLit;
+        bulbRenderer.material = IsLit
             ? lightMaterial
             : unlightMaterial;
         
-        if (_isLit)
+        if (IsLit)
             fireParticles.Play();
         else fireParticles.Stop();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.gameObject.CompareTag("LightBulb") && !_isLit)
-        {
-            Light();
-        }
-    }
-
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.gameObject.CompareTag("Water") && _isLit)
-        {
-            Unlight();
-        }
     }
 }
