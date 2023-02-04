@@ -63,8 +63,6 @@ namespace Characters
             }
 
             var foundLightBug = CheckIfFoundLightBug();
-            //if (foundLightBug)
-            //    _currentSpeed = 0f;
 
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
@@ -121,7 +119,7 @@ namespace Characters
             var direction = GetDirectionToTarget();
             var intensityInDirection = GetDirectionPairFrom(direction).Item2;
 
-            return lightIntensityLevel <= intensityInDirection;
+            return lightIntensityLevel < intensityInDirection;
         }
         
         private (Vector3, float) GetDirectionPairFrom(Vector2 direction2D)

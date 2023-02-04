@@ -108,8 +108,7 @@ namespace Characters
 
         protected bool TryToFindTarget()
         {
-            var playerPosition = ConvertToVector2(player.transform.position);
-            var distance = Vector3.Distance(playerPosition, transform.position);
+            var distance = Vector3.Distance(player.transform.position, transform.position);
             
             //TODO: THROW RAYCAST
             
