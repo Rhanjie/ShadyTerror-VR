@@ -17,8 +17,8 @@ public class BulbDetector : MonoBehaviour
         
         if (collision.collider.gameObject.CompareTag("LightBulb") && !_torchBehaviour.IsLit)
         {
-            var foundTorchBehaviour = collision.collider.transform.parent.GetComponent<TorchBehaviour>();
-            if (foundTorchBehaviour == null || foundTorchBehaviour == _torchBehaviour)
+            var foundTorchBehaviour = collision.collider.transform.GetComponentInParent<TorchBehaviour>();
+            if (foundTorchBehaviour == null || !foundTorchBehaviour.IsLit || foundTorchBehaviour == _torchBehaviour)
                 return;
             
             _torchBehaviour.Light();

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6401246043477092037}
-  m_Layer: 30
+  m_Layer: 26
   m_Name: BulbEmpty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   handType: 0
   grabType: 0
   useGentleGrab: 0
-  makeChildrenGrabbable: 1
+  makeChildrenGrabbable: 0
   pullApartBreakOnly: 1
   customGrabJoint: {fileID: 0}
   ignoreReleaseTime: 0.5
@@ -175,10 +175,10 @@ MonoBehaviour:
   fireParticles: {fileID: 8855069083605372115}
   bulbEmpty: {fileID: 6401246043477092037}
   bulbRenderer: {fileID: 3495678309077382531}
-  bulbDetector: {fileID: 7189410541193791015}
   lightMaterial: {fileID: 2100000, guid: 18e30171099266044bdf4eadd4fcde31, type: 2}
   unlightMaterial: {fileID: 2100000, guid: bedff8f9bda2fc4429cf6e1a3754c74c, type: 2}
   enabledOnStart: 0
+  ignoreWickBurning: 0
 --- !u!1 &3495678308884007957
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 3495678308884007978}
   - component: {fileID: 3495678308884007979}
   - component: {fileID: 3495678308884007956}
+  - component: {fileID: 2353342157882045505}
   m_Layer: 30
   m_Name: Stick
   m_TagString: Untagged
@@ -276,6 +277,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2353342157882045505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3495678308884007957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c6f05faa8c57b4c83638f7f36c7c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grabParent: {fileID: 3463189103383231252}
 --- !u!1 &3495678309077382542
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +304,7 @@ GameObject:
   - component: {fileID: 7189410541193791015}
   - component: {fileID: 4897312208326754364}
   - component: {fileID: 189986124989183261}
-  m_Layer: 30
+  m_Layer: 26
   m_Name: Bulb
   m_TagString: LightBulb
   m_Icon: {fileID: 0}
@@ -415,7 +429,7 @@ GameObject:
   - component: {fileID: 3495678310037003642}
   - component: {fileID: 3495678310037003641}
   - component: {fileID: 6757522736533542132}
-  m_Layer: 30
+  m_Layer: 26
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
