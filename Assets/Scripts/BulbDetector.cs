@@ -18,7 +18,7 @@ public class BulbDetector : MonoBehaviour
         if (collision.collider.gameObject.CompareTag("LightBulb") && !_torchBehaviour.IsLit)
         {
             var foundTorchBehaviour = collision.collider.transform.parent.GetComponent<TorchBehaviour>();
-            if (foundTorchBehaviour == null || !foundTorchBehaviour.IsLit)
+            if (foundTorchBehaviour == null)
                 return;
             
             _torchBehaviour.Light();
@@ -30,7 +30,7 @@ public class BulbDetector : MonoBehaviour
         if (_torchBehaviour == null)
             throw new Exception($"Init method was not called for {name}");
 
-        if (other.gameObject.CompareTag("Water") && _torchBehaviour.IsLit)
+        if (other.gameObject.CompareTag("Water"))
         {
             _torchBehaviour.Unlight();
         }
