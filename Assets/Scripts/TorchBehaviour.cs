@@ -38,7 +38,7 @@ public class TorchBehaviour : MonoBehaviour
 
         ResetParticlesRotation();
         
-        if (ignoreWickBurning)
+        if (!ignoreWickBurning)
             BurningOut();
     }
 

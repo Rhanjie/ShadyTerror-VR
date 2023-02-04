@@ -119,7 +119,7 @@ namespace Characters
             var direction = GetDirectionToTarget();
             var intensityInDirection = GetDirectionPairFrom(direction).Item2;
 
-            return lightIntensityLevel <= intensityInDirection;
+            return lightIntensityLevel < intensityInDirection;
         }
         
         private (Vector3, float) GetDirectionPairFrom(Vector2 direction2D)
