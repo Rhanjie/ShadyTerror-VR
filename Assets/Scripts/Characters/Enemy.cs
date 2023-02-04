@@ -27,7 +27,7 @@ namespace Characters
         protected CharacterController _characterController;
         protected Coroutine _attackCoroutineObject;
         private GameObject player;
-        protected Vector2 targetToReach;
+        protected Vector2 targetToReach = Vector2.zero;
         protected Vector3 _impact;
         private Func<Vector3> randomPositionMethod;
 
@@ -35,6 +35,7 @@ namespace Characters
         protected int _currentWaypointIndex = 0;
         protected float _currentSpeed = 0f;
 
+        protected const float OffsetToRenderTrail = 0.65f;
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
         protected static readonly int AttackHash = Animator.StringToHash("Attack");
@@ -170,7 +171,7 @@ namespace Characters
             
             if (foundPlayer)
             {
-                _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
+                Attack();
             }
             
             else _currentWaypointIndex = GetNextWaypointIndex(_currentWaypointIndex);
@@ -225,15 +226,25 @@ namespace Characters
             yield return null;
         }
         
-        private IEnumerator AttackRoutine()
+        public virtual void Attack()
+        {
+            _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
+        }
+        
+        protected virtual IEnumerator AttackRoutine()
         {
             animator.SetTrigger(AttackHash);
-            audioManager.PlaySoundWithRandomPitch("hitPlayer", 0.9f, 1.1f);
             
-            Attack();
+            yield return new WaitForSeconds(OffsetToRenderTrail);
             
-            yield return new WaitForSeconds(attackDuration);
+            attackPoint.gameObject.SetActive(true);
             
+            //TODO: Play if hit (OnTriggerEnter())
+            //audioManager.PlaySoundWithRandomPitch("hitPlayer", 0.9f, 1.1f);
+
+            yield return new WaitForSeconds(attackDuration - OffsetToRenderTrail);
+            
+            attackPoint.gameObject.SetActive(false);
             _attackCoroutineObject = null;
         }
 

@@ -80,7 +80,7 @@ namespace Characters
                 StopRunOperation();
             }
 
-            else if (_attackCoroutineObject == null)
+            else if (_attackCoroutineObject == null && targetToReach != Vector2.zero)
             {
                 //if (!foundLightBug)
                 UpdateWalkRoutine();
