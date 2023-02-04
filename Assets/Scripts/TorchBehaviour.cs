@@ -6,16 +6,15 @@ public class TorchBehaviour : MonoBehaviour
     [SerializeField] private ParticleSystem fireParticles;
     [SerializeField] private Transform bulbEmpty;
     [SerializeField] private MeshRenderer bulbRenderer;
-    [SerializeField] private BulbDetector bulbDetector;
+    
     [SerializeField] private Material lightMaterial;
     [SerializeField] private Material unlightMaterial;
     
     [SerializeField] private bool enabledOnStart;
+    [SerializeField] private bool ignoreWickBurning;
 
     private Light _light;
-
     private float _remainingValue = 100;
-
     private float _totalVerticalBulbScale;
 
     public bool IsLit { get; private set; } = true;
@@ -25,21 +24,31 @@ public class TorchBehaviour : MonoBehaviour
         _light = bulbRenderer.GetComponentInChildren<Light>();
         _totalVerticalBulbScale = bulbEmpty.localScale.y;
 
-        IsLit = !enabledOnStart;
-        if (enabledOnStart)
-            Light();
-        else Unlight();
+        var bulbDetector = bulbRenderer.GetComponent<BulbDetector>();
+        if (bulbDetector != null)
+            bulbDetector.Init(this);
         
-        bulbDetector.Init(this);
+        ToggleLight(enabledOnStart);
     }
     
     private void Update()
     {
         if (!IsLit)
             return;
-        
-        fireParticles.transform.localRotation = Quaternion.Inverse(transform.localRotation) * Quaternion.Euler(-90, 0f, 0f);
 
+        ResetParticlesRotation();
+        
+        if (ignoreWickBurning)
+            BurningOut();
+    }
+
+    private void ResetParticlesRotation()
+    {
+        fireParticles.transform.localRotation = Quaternion.Inverse(transform.localRotation) * Quaternion.Euler(-90, 0f, 0f);
+    }
+
+    private void BurningOut()
+    {
         _remainingValue -= Time.deltaTime;
         if (_remainingValue <= 0f)
         {
