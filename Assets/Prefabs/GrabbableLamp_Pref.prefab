@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 7189410541193791015}
   - component: {fileID: 4897312208326754364}
   - component: {fileID: 189986124989183261}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Bulb
   m_TagString: LightBulb
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 3495678310037003642}
   - component: {fileID: 3495678310037003641}
   - component: {fileID: 6757522736533542132}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -530,10 +530,8 @@ GameObject:
   - component: {fileID: 1284953564768862470}
   - component: {fileID: 7132430969771289069}
   - component: {fileID: 4308121187058897066}
-  - component: {fileID: 5933989404079141195}
   - component: {fileID: 1478582452724565842}
-  - component: {fileID: 3827187930991526692}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: BurntWick
   m_TagString: LightBulb
   m_Icon: {fileID: 0}
@@ -605,18 +603,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &5933989404079141195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3993341177289534635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f02e509f748f674c9e076b1fded0f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1478582452724565842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -630,22 +616,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4, y: 1.4, z: 1.4}
   m_Center: {x: 0, y: 0, z: -0.000003695488}
---- !u!54 &3827187930991526692
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3993341177289534635}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &8656782709306355677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -656,6 +626,26 @@ PrefabInstance:
     - target: {fileID: 1253142483436318, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
       propertyPath: m_Name
       value: FireParticleSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 1253142483436318, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652784949999524, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706519164850726, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1878652760548056, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+      propertyPath: m_Layer
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1911683160194432, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+      propertyPath: m_Layer
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4175407219268534, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
       propertyPath: m_LocalScale.x

@@ -29,9 +29,12 @@ public class BulbDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (_torchBehaviour == null)
+            throw new Exception($"Init method was not called for {name}");
+
         if (other.gameObject.CompareTag("Water") && _torchBehaviour.IsLit)
         {
-            _torchBehaviour.Light();
+            _torchBehaviour.Unlight();
         }
     }
 }
