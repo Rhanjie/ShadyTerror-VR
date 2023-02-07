@@ -56,14 +56,12 @@ namespace Characters
             if (foundPlayer || TryToFindTarget())
                 UpdateAttackRoutine();
 
-            if (!foundPlayer)
+            if (!foundPlayer && _waypoints.Count != 0)
             {
-                if (_waypoints.Count != 0)
-                    targetToReach = _waypoints[_currentWaypointIndex];
+                targetToReach = _waypoints[_currentWaypointIndex];
             }
 
             var foundLightBug = CheckIfFoundLightBug();
-
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
                 _getHitCoroutine ??= StartCoroutine(HandleLightDamage());

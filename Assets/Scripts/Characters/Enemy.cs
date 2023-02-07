@@ -29,6 +29,7 @@ namespace Characters
         private GameObject player;
         protected Vector2 targetToReach = Vector2.zero;
         protected Vector3 _impact;
+        protected float acceleration = 2f;
         private Func<Vector3> randomPositionMethod;
 
         protected List<Vector2> _waypoints;
@@ -36,6 +37,8 @@ namespace Characters
         protected float _currentSpeed = 0f;
 
         protected const float OffsetToRenderTrail = 0.65f;
+        protected const float MaxDistanceToReachDestination = 1.5f;
+        
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
         protected static readonly int AttackHash = Animator.StringToHash("Attack");
@@ -132,7 +135,7 @@ namespace Characters
         {
             var position2D = ConvertToVector2(transform.position);
             var distance = Vector2.Distance(targetToReach, position2D);
-            if (distance > 1.5f)
+            if (distance > MaxDistanceToReachDestination)
             {
                 var direction = GetDirectionToTarget();
                 
@@ -155,7 +158,7 @@ namespace Characters
         {
             var maxSpeed = foundPlayer ? runSpeed : walkSpeed;
 
-            _currentSpeed += 2f * Time.deltaTime;
+            _currentSpeed += acceleration * Time.deltaTime;
             if (_currentSpeed > maxSpeed)
                 _currentSpeed = maxSpeed;
             
