@@ -404,6 +404,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f1dfbcbc5e9325349af89c320579fcf6, type: 3}
   minPauseTime: 51.300003
   maxPauseTime: 51.4
+  ambientMultiplier: 0.5
 --- !u!1 &4546850059765138707
 GameObject:
   m_ObjectHideFlags: 0

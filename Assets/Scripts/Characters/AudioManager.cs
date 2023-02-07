@@ -24,6 +24,8 @@ namespace Characters
         [SerializeField] [Range(0, 100)] private float minPauseTime = 2f;
         [SerializeField] [Range(0, 100)] private float maxPauseTime = 4f;
         
+        [SerializeField] [Range(0.01f, 2)] private float ambientMultiplier = 0.5f;
+        
         private AudioSource _audioSource;
         private float _originalVolume;
 
@@ -88,7 +90,7 @@ namespace Characters
             if (_audioSource.isPlaying && !highPriority)
                 return;
             
-            _audioSource.volume = highPriority ? _originalVolume : _originalVolume / 2f;
+            _audioSource.volume = highPriority ? _originalVolume : (_originalVolume * ambientMultiplier);
             _audioSource.pitch = Random.Range(minPitch, maxPitch);
             _audioSource.PlayOneShot(audioClip);
         }
