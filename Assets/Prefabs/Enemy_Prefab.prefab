@@ -335,7 +335,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -402,8 +402,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8631c495a2404a74a9d03db75ccbb766, type: 3}
   - {fileID: 8300000, guid: d6a0bb3d0f655484b9db63bba5d02e24, type: 3}
   - {fileID: 8300000, guid: f1dfbcbc5e9325349af89c320579fcf6, type: 3}
-  minPauseTime: 51.300003
-  maxPauseTime: 51.4
+  minPauseTime: 5
+  maxPauseTime: 20
   ambientMultiplier: 0.5
 --- !u!1 &4546850059765138707
 GameObject:
