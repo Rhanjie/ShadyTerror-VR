@@ -25,21 +25,23 @@ namespace Characters
         [SerializeField] [Range(0, 100)] private float maxPauseTime = 4f;
         
         private AudioSource _audioSource;
-
-        private void OnValidate()
-        {
-            if (minPauseTime > maxPauseTime)
-                minPauseTime = maxPauseTime - 0.1f;
-        }
+        private float _originalVolume;
 
         private void Start()
         {
             _audioSource = GetComponent<AudioSource>();
+            _originalVolume = _audioSource.volume;
 
             if (ambientSounds.Count > 0)
             {
                 StartCoroutine(UpdateAmbient());
             }
+        }
+        
+        private void OnValidate()
+        {
+            if (minPauseTime > maxPauseTime)
+                minPauseTime = maxPauseTime - 0.1f;
         }
         
         private IEnumerator UpdateAmbient()
@@ -77,7 +79,7 @@ namespace Characters
             var clipInfo = callableSounds.Find(clipInfo => clipInfo.name == clipName);
             if (clipInfo == null)
                 throw new KeyNotFoundException($"Not found '{clipName}' clip in registered list");
-
+            
             PlaySoundInternal(clipInfo.sound, minPitch, maxPitch, true);
         }
 
@@ -86,6 +88,7 @@ namespace Characters
             if (_audioSource.isPlaying && !highPriority)
                 return;
             
+            _audioSource.volume = highPriority ? _originalVolume : _originalVolume / 2f;
             _audioSource.pitch = Random.Range(minPitch, maxPitch);
             _audioSource.PlayOneShot(audioClip);
         }
