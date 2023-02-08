@@ -1990,6 +1990,17 @@ MonoBehaviour:
   hittableLayers:
     serializedVersion: 2
     m_Bits: 1921
+  impactParticles:
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 1153
+    particleSystem: {fileID: 1338129302052414920, guid: 882a681b5ec4cf74f8de4cf333cbd2a3,
+      type: 3}
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 2048
+    particleSystem: {fileID: 1338129302052414920, guid: 3b232b224795ee748af56b75192f591e,
+      type: 3}
 --- !u!82 &1130112588
 AudioSource:
   m_ObjectHideFlags: 0
