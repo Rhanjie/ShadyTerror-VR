@@ -35,8 +35,7 @@ namespace Characters
         protected List<Vector2> _waypoints;
         protected int _currentWaypointIndex = 0;
         protected float _currentSpeed = 0f;
-
-        protected const float OffsetToRenderTrail = 0.65f;
+        
         protected const float MaxDistanceToReachDestination = 1.5f;
         
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
@@ -237,18 +236,17 @@ namespace Characters
         protected virtual IEnumerator AttackRoutine()
         {
             animator.SetTrigger(AttackHash);
-            
-            yield return new WaitForSeconds(OffsetToRenderTrail);
-            
-            attackPoint.gameObject.SetActive(true);
-            
+
             //TODO: Play if hit (OnTriggerEnter())
             //audioManager.PlaySoundWithRandomPitch("hitPlayer", 0.9f, 1.1f);
 
-            yield return new WaitForSeconds(attackDuration - OffsetToRenderTrail);
-            
-            attackPoint.gameObject.SetActive(false);
+            yield return new WaitForSeconds(attackDuration);
             _attackCoroutineObject = null;
+        }
+        
+        public void ToggleAttackCollider(bool isActive)
+        {
+            attackPoint.gameObject.SetActive(isActive);
         }
 
         protected Vector2 GetDirectionToTarget()
