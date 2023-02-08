@@ -5,6 +5,13 @@ using Characters;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[Serializable]
+internal struct ImpactParticle
+{
+    public LayerMask layerMask;
+    public ParticleSystem particleSystem;
+}
+
 public class GunBehaviour : MonoBehaviour
 {
     [Header("References")]
@@ -37,6 +44,9 @@ public class GunBehaviour : MonoBehaviour
     
     [SerializeField]
     private LayerMask hittableLayers;
+    
+    [SerializeField]
+    private List<ImpactParticle> impactParticles;
     
     protected AudioSource gunAudioSource;
     protected float currentGunScatter;
@@ -77,16 +87,6 @@ public class GunBehaviour : MonoBehaviour
         var trail = Instantiate(shootTrail, shootingPoint.position, Quaternion.identity);
         if (Physics.Raycast(transform.position, GetDirection(), out var hit, maxDistance, hittableLayers))
         {
-            if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Enemy"))
-            {
-                if (hit.transform.gameObject.TryGetComponent(out ICharacter character))
-                {
-                    character.Hit(hit.collider.name);
-                }
-                
-                else Debug.LogWarning("The hit target does not inherit from the ICharacter interface!");
-            }
-
             StartCoroutine(SpawnTrail(trail, hit.point, hit));
         }
         else
@@ -117,11 +117,40 @@ public class GunBehaviour : MonoBehaviour
         }
 
         trail.transform.position = hitPoint;
-
         Destroy(trail.gameObject, trail.time);
+
+        HandleDestinationReached(hit);
     }
-    
-    protected Vector3 GetDirection()
+
+    private void HandleDestinationReached(RaycastHit hit)
+    {
+        if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Enemy"))
+        {
+            if (hit.transform.gameObject.TryGetComponent(out ICharacter character))
+            {
+                character.Hit(hit.collider.name);
+            }
+                
+            else Debug.LogWarning("The hit target does not inherit from the ICharacter interface!");
+        }
+        
+        SpawnImpactEffect(hit);
+    }
+
+    private void SpawnImpactEffect(RaycastHit hit)
+    {
+        if (hit.collider == null)
+            return;
+        
+        var hitObjectLayer = hit.collider.gameObject.layer;
+        var index = impactParticles.FindIndex(it => it.layerMask == (it.layerMask | (1 << hitObjectLayer)));
+        if (index != -1)
+        {
+            Instantiate(impactParticles[index].particleSystem, hit.point, Quaternion.LookRotation(hit.normal), hit.transform);
+        }
+    }
+
+    private Vector3 GetDirection()
     {
         var direction = shootingDirection.forward;
 

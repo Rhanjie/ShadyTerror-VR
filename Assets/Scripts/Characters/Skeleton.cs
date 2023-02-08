@@ -56,14 +56,12 @@ namespace Characters
             if (foundPlayer || TryToFindTarget())
                 UpdateAttackRoutine();
 
-            if (!foundPlayer)
+            if (!foundPlayer && _waypoints.Count != 0)
             {
-                if (_waypoints.Count != 0)
-                    targetToReach = _waypoints[_currentWaypointIndex];
+                targetToReach = _waypoints[_currentWaypointIndex];
             }
 
             var foundLightBug = CheckIfFoundLightBug();
-
             if (lightIntensityLevel >= minLightLevelToDamage)
             {
                 _getHitCoroutine ??= StartCoroutine(HandleLightDamage());
@@ -80,7 +78,7 @@ namespace Characters
                 StopRunOperation();
             }
 
-            else if (_attackCoroutineObject == null)
+            else if (_attackCoroutineObject == null && targetToReach != Vector2.zero)
             {
                 //if (!foundLightBug)
                 UpdateWalkRoutine();
