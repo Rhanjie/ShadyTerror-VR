@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1126745327}
   - component: {fileID: 1126745329}
   - component: {fileID: 1126745328}
-  m_Layer: 9
+  m_Layer: 27
   m_Name: LightCatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1597477400}
   - component: {fileID: 1597477403}
   - component: {fileID: 1597477401}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: LightCalculatorCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2554138297807880950}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Waypoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
