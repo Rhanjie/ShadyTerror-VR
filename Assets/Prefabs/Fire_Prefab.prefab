@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2251297250029083633}
   m_LocalRotation: {x: -0.02125153, y: 0.033593453, z: -0.17691419, w: 0.98342323}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.203, y: 7.3, z: -0.128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,8 +45,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.7294118, b: 0.09019608, a: 1}
-  m_Intensity: 9
-  m_Range: 5
+  m_Intensity: 40
+  m_Range: 7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -127,6 +127,8 @@ GameObject:
   - component: {fileID: 2561801046442564354}
   - component: {fileID: 475079402569981033}
   - component: {fileID: 6903482019934666338}
+  - component: {fileID: 7299204890124895101}
+  - component: {fileID: 5661189562663028370}
   m_Layer: 26
   m_Name: Fire_Prefab
   m_TagString: Untagged
@@ -149,7 +151,7 @@ Transform:
   - {fileID: 7525382839651047379}
   - {fileID: 2839903952414237384}
   m_Father: {fileID: 0}
-  m_RootOrder: 45
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 7.392, y: -1.076, z: 11.835}
 --- !u!33 &2561801046442564354
 MeshFilter:
@@ -214,6 +216,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 14.672439, z: 1}
   m_Center: {x: -0.000000059350924, y: 6.836171, z: 0.0000000059074003}
+--- !u!114 &7299204890124895101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868298304497965392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ce27020144c3a45b7217a571f591cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireParticles: {fileID: 2718443272156573170}
+  bulbEmpty: {fileID: 7385271811611328584}
+  bulbRenderer: {fileID: 475079402569981033}
+  lightMaterial: {fileID: 2100000, guid: 18e30171099266044bdf4eadd4fcde31, type: 2}
+  unlightMaterial: {fileID: 2100000, guid: bedff8f9bda2fc4429cf6e1a3754c74c, type: 2}
+  enabledOnStart: 1
+  ignoreWickBurning: 1
+--- !u!114 &5661189562663028370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868298304497965392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f02e509f748f674c9e076b1fded0f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2844390026611265276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -373,6 +406,12 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 89956e675b749204c8e10395ce2b5fb9, type: 3}
+--- !u!198 &2718443272156573170 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198321560017527566, guid: 89956e675b749204c8e10395ce2b5fb9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2844390026611265276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2839903952414237384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4521404770085940, guid: 89956e675b749204c8e10395ce2b5fb9,
