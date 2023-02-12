@@ -74,7 +74,8 @@ namespace Characters
             
             _impact = Vector3.Lerp(_impact, Vector3.zero, 5*Time.deltaTime);
             
-            FaceToTarget();
+            if (foundPlayer || _waypoints.Count != 0)
+                FaceToTarget();
             
             base.Update();
         }
