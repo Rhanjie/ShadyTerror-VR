@@ -83,7 +83,9 @@ public class TorchBehaviour : MonoBehaviour
     {
         IsLit = isActive;
         
-        _light.enabled = IsLit;
+        if (_light != null)
+            _light.enabled = IsLit;
+        
         bulbRenderer.material = IsLit
             ? lightMaterial
             : unlightMaterial;
