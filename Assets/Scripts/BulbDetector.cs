@@ -14,15 +14,8 @@ public class BulbDetector : MonoBehaviour
     {
         if (_torchBehaviour == null)
             throw new Exception($"Init method was not called for {name}");
-        
-        if (collision.collider.gameObject.CompareTag("LightBulb") && !_torchBehaviour.IsLit)
-        {
-            var foundTorchBehaviour = collision.collider.transform.GetComponentInParent<TorchBehaviour>();
-            if (foundTorchBehaviour == null || !foundTorchBehaviour.IsLit || foundTorchBehaviour == _torchBehaviour)
-                return;
-            
-            _torchBehaviour.Light();
-        }
+
+        IfTouchAnotherLight(collision.collider);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,6 +26,20 @@ public class BulbDetector : MonoBehaviour
         if (other.gameObject.CompareTag("Water"))
         {
             _torchBehaviour.Unlight();
+        }
+        
+        else IfTouchAnotherLight(other);
+    }
+
+    private void IfTouchAnotherLight(Collider other)
+    {
+        if (other.gameObject.CompareTag("LightBulb") && !_torchBehaviour.IsLit)
+        {
+            var foundTorchBehaviour = other.transform.GetComponentInParent<TorchBehaviour>();
+            if (foundTorchBehaviour == null || !foundTorchBehaviour.IsLit || foundTorchBehaviour == _torchBehaviour)
+                return;
+            
+            _torchBehaviour.Light();
         }
     }
 }

@@ -9,8 +9,6 @@ namespace Characters
 {
     public class Enemy : Character
     {
-        [SerializeField] protected AudioClip laugh;
-        [SerializeField] protected AudioClip scream;
         [SerializeField] protected Transform transformToRotate;
         [SerializeField] protected Transform waypointsParent;
         [SerializeField] protected Animator animator;
@@ -27,17 +25,21 @@ namespace Characters
         protected CharacterController _characterController;
         protected Coroutine _attackCoroutineObject;
         private GameObject player;
-        protected Vector2 targetToReach;
+        protected Vector2 targetToReach = Vector2.zero;
         protected Vector3 _impact;
+        protected float acceleration = 2f;
         private Func<Vector3> randomPositionMethod;
 
         protected List<Vector2> _waypoints;
         protected int _currentWaypointIndex = 0;
         protected float _currentSpeed = 0f;
-
+        
+        protected const float MaxDistanceToReachDestination = 1.5f;
+        
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
         protected static readonly int AttackHash = Animator.StringToHash("Attack");
+        protected static readonly int DeadHash = Animator.StringToHash("Dead");
 
         protected override void Start()
         {
@@ -71,7 +73,8 @@ namespace Characters
             
             _impact = Vector3.Lerp(_impact, Vector3.zero, 5*Time.deltaTime);
             
-            FaceToTarget();
+            if (foundPlayer || _waypoints.Count != 0)
+                FaceToTarget();
             
             base.Update();
         }
@@ -131,7 +134,7 @@ namespace Characters
         {
             var position2D = ConvertToVector2(transform.position);
             var distance = Vector2.Distance(targetToReach, position2D);
-            if (distance > 1.5f)
+            if (distance > MaxDistanceToReachDestination)
             {
                 var direction = GetDirectionToTarget();
                 
@@ -154,7 +157,7 @@ namespace Characters
         {
             var maxSpeed = foundPlayer ? runSpeed : walkSpeed;
 
-            _currentSpeed += 2f * Time.deltaTime;
+            _currentSpeed += acceleration * Time.deltaTime;
             if (_currentSpeed > maxSpeed)
                 _currentSpeed = maxSpeed;
             
@@ -170,7 +173,7 @@ namespace Characters
             
             if (foundPlayer)
             {
-                _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
+                Attack();
             }
             
             else _currentWaypointIndex = GetNextWaypointIndex(_currentWaypointIndex);
@@ -194,9 +197,10 @@ namespace Characters
                 StopCoroutine(_attackCoroutineObject);
             
             audioManager.PlaySoundWithRandomPitch("scream", 0.9f, 1.1f);
-            AddImpact(-transform.forward, 50f);
 
-            yield return DissolveRoutine(2);
+            animator.SetTrigger(DeadHash);
+
+            yield return DissolveRoutine(3);
 
             Destroy(gameObject);
         }
@@ -204,7 +208,7 @@ namespace Characters
         public void AddImpact(Vector3 direction, float force){
             
             if (direction.y < 0)
-                direction.y = -direction.y; // reflect down force on the ground
+                direction.y = -direction.y; //Reflect down force on the ground
             
             _impact += (direction.normalized * force) / mass;
         }
@@ -225,16 +229,25 @@ namespace Characters
             yield return null;
         }
         
-        private IEnumerator AttackRoutine()
+        public virtual void Attack()
+        {
+            _attackCoroutineObject ??= StartCoroutine(AttackRoutine());
+        }
+        
+        protected virtual IEnumerator AttackRoutine()
         {
             animator.SetTrigger(AttackHash);
-            audioManager.PlaySoundWithRandomPitch("hitPlayer", 0.9f, 1.1f);
-            
-            Attack();
-            
+
+            //TODO: Play if hit (OnTriggerEnter())
+            //audioManager.PlaySoundWithRandomPitch("hitPlayer", 0.9f, 1.1f);
+
             yield return new WaitForSeconds(attackDuration);
-            
             _attackCoroutineObject = null;
+        }
+        
+        public void ToggleAttackCollider(bool isActive)
+        {
+            attackPoint.gameObject.SetActive(isActive);
         }
 
         protected Vector2 GetDirectionToTarget()

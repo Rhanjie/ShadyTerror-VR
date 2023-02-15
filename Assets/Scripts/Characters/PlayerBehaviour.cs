@@ -37,28 +37,6 @@ namespace Characters
             //...
         }
 
-        protected override IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint, RaycastHit hit = default)
-        {
-            if (hit.collider != null)
-            {
-                var hitObjectLayer = hit.collider.gameObject.layer;
-                var index = impactParticles.FindIndex(it => it.layerMask == (it.layerMask | (1 << hitObjectLayer)));
-                if (index != -1)
-                {
-                    Instantiate(impactParticles[index].particleSystem, hitPoint, Quaternion.LookRotation(hit.normal), hit.transform);
-                }
-            }
-
-            yield return base.SpawnTrail(trail, hitPoint, hit);
-        }
-
-        public override void Attack()
-        {
-            base.Attack();
-            
-            //...
-        }
-
         public override void Hit(string colliderName)
         {
             base.Hit(colliderName);
