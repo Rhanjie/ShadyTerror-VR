@@ -58,8 +58,6 @@ namespace Characters
                 var randomIndex = Random.Range(0, ambientSounds.Count);
                 PlayAmbientSound(randomIndex);
             }
-
-            yield return null;
         }
         
         private void PlayAmbientSound(int index)

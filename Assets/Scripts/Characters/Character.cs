@@ -7,8 +7,6 @@ namespace Characters
     public abstract class Character : MonoBehaviour, ICharacter
     {
         [Header("References")]
-        [SerializeField] protected Transform attackPoint;
-        [SerializeField] protected TrailRenderer attackTrail;
         [SerializeField] protected AudioManager audioManager;
 
         protected int maxHealth = 5;

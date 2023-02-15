@@ -9,6 +9,7 @@ namespace Characters
 {
     public class Enemy : Character
     {
+        [SerializeField] protected Transform attackPoint;
         [SerializeField] protected Transform transformToRotate;
         [SerializeField] protected Transform waypointsParent;
         [SerializeField] protected Animator animator;
