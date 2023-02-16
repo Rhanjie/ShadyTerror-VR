@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5661189562663028370}
   m_Layer: 26
   m_Name: Fire_Prefab
-  m_TagString: LightBulb
+  m_TagString: Fire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
