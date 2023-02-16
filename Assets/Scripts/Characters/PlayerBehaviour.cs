@@ -23,7 +23,7 @@ namespace Characters
         {
             base.Start();
 
-            FadeEyeSightTo(Transparent, 2f);
+            FadeEyeSightTo(Transparent, 5f);
         }
 
         public override void UpdateCustomBehaviour()
@@ -35,10 +35,10 @@ namespace Characters
         {
             base.Hit(colliderName);
 
-            var redIntensity = (byte)(50 * (maxHealth - currentHealth));
-            var color = new Color32(redIntensity, 0, 0, 0);
+            var alpha = (byte)(8 * (maxHealth - currentHealth));
+            var color = new Color32(200, 0, 0, alpha);
             
-            FadeEyeSightTo(color, 0.5f);
+            FadeEyeSightTo(color, 1.5f);
         }
 
         public override IEnumerator DieRoutine()
@@ -59,7 +59,7 @@ namespace Characters
 
         private IEnumerator FadeEyeSightToRoutine(Color32 newColor, float time)
         {
-            var currentColor = visionLimitation.color;
+            Color32 currentColor = visionLimitation.color;
 
             var redSpeed = (newColor.r - currentColor.r) / time;
             var greenSpeed = (newColor.g - currentColor.g) / time;
@@ -67,22 +67,31 @@ namespace Characters
             var alphaSpeed = (newColor.a - currentColor.a) / time;
 
             var currentTime = 0f;
-            while (Math.Abs(time - currentTime) > 0.01f)
+            while (time - currentTime > 0f)
             {
                 var deltaTime = Time.deltaTime;
                 currentTime += deltaTime;
                 
-                currentColor.r += redSpeed * deltaTime;
-                currentColor.g += greenSpeed * deltaTime;
-                currentColor.b += blueSpeed * deltaTime;
-                currentColor.a += alphaSpeed * deltaTime;
-
+                currentColor.r += (byte)(redSpeed * deltaTime);
+                currentColor.g += (byte)(greenSpeed * deltaTime);
+                currentColor.b += (byte)(blueSpeed * deltaTime);
+                currentColor.a += (byte)(alphaSpeed * deltaTime);
+                
                 visionLimitation.color = currentColor;
                 
                 yield return null;
             }
-
+            
+            visionLimitation.color = newColor;
             _fadeCoroutine = null;
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.transform.CompareTag("Water") || other.transform.CompareTag("Fire"))
+            {
+                StartCoroutine(DieRoutine());
+            }
         }
     }
 }
