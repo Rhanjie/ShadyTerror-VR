@@ -1852,9 +1852,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 115376485820158334, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
+      propertyPath: ambientSounds.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 115376485820158334, guid: 2f17eb67048f5fc499154e8cb2b669cd,
+        type: 3}
       propertyPath: callableSounds.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 115376485820158334, guid: 2f17eb67048f5fc499154e8cb2b669cd,
+        type: 3}
+      propertyPath: ambientSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: cc90fe82e8ebe4b4dab1260964ab4293, type: 3}
     - target: {fileID: 115376485820158334, guid: 2f17eb67048f5fc499154e8cb2b669cd,
         type: 3}
       propertyPath: callableSounds.Array.data[0].name
