@@ -24,7 +24,7 @@ namespace Characters
         {
             base.Start();
 
-            FadeEyeSightTo(Transparent, 5f);
+            FadeEyeSightTo(Transparent, 2f);
         }
 
         public override void UpdateCustomBehaviour()
@@ -36,14 +36,16 @@ namespace Characters
         {
             base.Hit(colliderName);
 
-            var alpha = (byte)(8 * (maxHealth - currentHealth));
-            var color = new Color32(200, 0, 0, alpha);
+            var difference = maxHealth - currentHealth;
+            var color = new Color32((byte)(difference * 40), 0, 0, (byte)(difference * 8));
             
-            FadeEyeSightTo(color, 1.5f);
+            FadeEyeSightTo(color, 1f);
         }
 
         public override IEnumerator DieRoutine()
         {
+            audioManager.PlaySound(_deadSound);
+            
             yield return base.DieRoutine();
             yield return FadeEyeSightToRoutine(Color.black, 2f);
             
@@ -58,9 +60,9 @@ namespace Characters
             _fadeCoroutine = StartCoroutine(FadeEyeSightToRoutine(newColor, time));
         }
 
-        private IEnumerator FadeEyeSightToRoutine(Color32 newColor, float time)
+        private IEnumerator FadeEyeSightToRoutine(Color newColor, float time)
         {
-            Color32 currentColor = visionLimitation.color;
+            var currentColor = visionLimitation.color;
 
             var redSpeed = (newColor.r - currentColor.r) / time;
             var greenSpeed = (newColor.g - currentColor.g) / time;
@@ -73,13 +75,13 @@ namespace Characters
                 var deltaTime = Time.deltaTime;
                 currentTime += deltaTime;
                 
-                currentColor.r += (byte)(redSpeed * deltaTime);
-                currentColor.g += (byte)(greenSpeed * deltaTime);
-                currentColor.b += (byte)(blueSpeed * deltaTime);
-                currentColor.a += (byte)(alphaSpeed * deltaTime);
+                currentColor.r += (redSpeed * deltaTime);
+                currentColor.g += (greenSpeed * deltaTime);
+                currentColor.b += (blueSpeed * deltaTime);
+                currentColor.a += (alphaSpeed * deltaTime);
                 
                 visionLimitation.color = currentColor;
-                
+
                 yield return null;
             }
             
