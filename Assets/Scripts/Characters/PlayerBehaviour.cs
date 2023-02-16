@@ -15,10 +15,11 @@ namespace Characters
         [SerializeField]
         private Image visionLimitation;
 
+        private string _deadSound = "DeadScream";
         private Coroutine _fadeCoroutine = null;
         
         private static readonly Color32 Transparent = new(0, 0, 0, 0);
-        
+
         protected override void Start()
         {
             base.Start();
@@ -90,6 +91,8 @@ namespace Characters
         {
             if (other.transform.CompareTag("Water") || other.transform.CompareTag("Fire"))
             {
+                _deadSound = $"{other.transform.tag}Scream";
+                
                 StartCoroutine(DieRoutine());
             }
         }

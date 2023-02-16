@@ -197,7 +197,7 @@ namespace Characters
             if (_attackCoroutineObject != null)
                 StopCoroutine(_attackCoroutineObject);
             
-            audioManager.PlaySoundWithRandomPitch("scream", 0.9f, 1.1f);
+            audioManager.PlaySoundWithRandomPitch("Scream", 0.9f, 1.1f);
 
             animator.SetTrigger(DeadHash);
 

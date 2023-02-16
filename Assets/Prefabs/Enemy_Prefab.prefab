@@ -386,11 +386,9 @@ MonoBehaviour:
   callableSounds:
   - name: iSeeYouVoice
     sound: {fileID: 8300000, guid: 3dd04bbdf3d4bd04eb7a2b3b43201c68, type: 3}
-  - name: scream
-    sound: {fileID: 8300000, guid: 1845d2db267b6b24ba223bf1b1cdc828, type: 3}
-  - name: hitPlayer
-    sound: {fileID: 8300000, guid: 03bf0b14c0ac6d343b6b9aa53f214aee, type: 3}
-  - name: hitEnemy
+  - name: Scream
+    sound: {fileID: 8300000, guid: 522d0c90d9081bf49a3f65a033b53f05, type: 3}
+  - name: Hit
     sound: {fileID: 8300000, guid: 33e44dbab6fd7544fbff13b59e92838c, type: 3}
   ambientSounds:
   - {fileID: 8300000, guid: 6c2c1fabb02efeb42b82932e2e86cf2e, type: 3}

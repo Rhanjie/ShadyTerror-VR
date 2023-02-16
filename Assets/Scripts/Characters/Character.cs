@@ -25,11 +25,6 @@ namespace Characters
                 return;
 
             UpdateCustomBehaviour();
-            
-            if (currentHealth <= 0)
-            {
-                StartCoroutine(DieRoutine());
-            }
         }
 
         public abstract void UpdateCustomBehaviour();
@@ -40,6 +35,12 @@ namespace Characters
             isHeadshot = colliderName.Contains("head", StringComparison.CurrentCultureIgnoreCase);
             
             currentHealth -= (isHeadshot) ? maxHealth : 1;
+            if (currentHealth <= 0)
+            {
+                StartCoroutine(DieRoutine());
+            }
+            
+            else audioManager.PlaySound("Hit");
         }
 
         public virtual IEnumerator DieRoutine()
