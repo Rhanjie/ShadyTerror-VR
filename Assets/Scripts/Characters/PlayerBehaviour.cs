@@ -44,7 +44,7 @@ namespace Characters
         public override IEnumerator DieRoutine()
         {
             yield return base.DieRoutine();
-            yield return FadeEyeSightToRoutine(Color.black, 3f);
+            yield return FadeEyeSightToRoutine(Color.black, 2f);
             
             SceneManager.LoadScene(0);
         }
