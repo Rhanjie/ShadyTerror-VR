@@ -87,7 +87,17 @@ namespace Characters
             _fadeCoroutine = null;
         }
         
+        private void OnCollisionEnter(Collision collision)
+        {
+            DieByObstacle(collision.collider);
+        }
+        
         private void OnTriggerEnter(Collider other)
+        {
+            DieByObstacle(other);
+        }
+
+        private void DieByObstacle(Collider other)
         {
             if (other.transform.CompareTag("Water") || other.transform.CompareTag("Fire"))
             {

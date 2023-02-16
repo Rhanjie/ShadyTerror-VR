@@ -141,12 +141,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8accae87128c0345af6442df47e4b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  callableSounds: []
+  callableSounds:
+  - name: DeadScream
+    sound: {fileID: 8300000, guid: 8a7c98d42a1a67349aeaf816014da8b5, type: 3}
+  - name: FireScream
+    sound: {fileID: 8300000, guid: f3f4f5ce05b81354398d8d0bbe2e84a4, type: 3}
+  - name: WaterScream
+    sound: {fileID: 8300000, guid: 88fdcf2860473f449a56db30c4411879, type: 3}
+  - name: Hit
+    sound: {fileID: 8300000, guid: 03bf0b14c0ac6d343b6b9aa53f214aee, type: 3}
   ambientSounds:
   - {fileID: 8300000, guid: 85cb49e17961dbf40b16ed5713f9243f, type: 3}
   - {fileID: 8300000, guid: a6a8524758512624faff121acb3ab537, type: 3}
   - {fileID: 8300000, guid: df137ee53aaca1743810da6bb0e13227, type: 3}
   - {fileID: 8300000, guid: 11e3bbe4a8b795840babfd33e0168037, type: 3}
+  - {fileID: 8300000, guid: cc90fe82e8ebe4b4dab1260964ab4293, type: 3}
   minPauseTime: 5
   maxPauseTime: 10
   ambientMultiplier: 0.25
@@ -519,7 +528,7 @@ Transform:
   - {fileID: 6051128399334462448}
   - {fileID: 6978653225458243531}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6562043294426349011
 MonoBehaviour:
