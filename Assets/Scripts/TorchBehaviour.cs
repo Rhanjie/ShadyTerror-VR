@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class TorchBehaviour : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class TorchBehaviour : MonoBehaviour
     [SerializeField] private bool enabledOnStart;
     [SerializeField] private bool ignoreWickBurning;
 
-    private Light _light;
+    public Light LightObject { get; private set; }
+    public UniversalAdditionalLightData LightData { get; private set; }
+    
     private float _remainingValue = 100;
     private float _totalVerticalBulbScale;
 
@@ -21,8 +24,10 @@ public class TorchBehaviour : MonoBehaviour
 
     private void Start()
     {
-        _light = bulbRenderer.GetComponentInChildren<Light>();
         _totalVerticalBulbScale = bulbEmpty.localScale.y;
+        
+        LightObject = bulbRenderer.GetComponentInChildren<Light>();
+        LightData = bulbRenderer.GetComponentInChildren<UniversalAdditionalLightData>();
 
         var bulbDetector = bulbRenderer.GetComponent<BulbDetector>();
         if (bulbDetector != null)
@@ -83,8 +88,8 @@ public class TorchBehaviour : MonoBehaviour
     {
         IsLit = isActive;
         
-        if (_light != null)
-            _light.enabled = IsLit;
+        if (LightObject != null)
+            LightObject.enabled = IsLit;
         
         bulbRenderer.material = IsLit
             ? lightMaterial
