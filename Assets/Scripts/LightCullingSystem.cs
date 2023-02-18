@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LightCullingSystem : MonoBehaviour
 {
-    private Transform _playerTransform;
+    private Transform _cameraVR;
     private List<TorchBehaviour> _torchBehaviours;
     
     private bool _isInit;
@@ -14,16 +14,16 @@ public class LightCullingSystem : MonoBehaviour
 
     private void Start()
     {
-        _playerTransform = GameObject.FindWithTag("Player").transform;
+        _cameraVR = GameObject.FindWithTag("MainCamera").transform;
         _torchBehaviours = new List<TorchBehaviour>();
         
-        var lightObjects = FindObjectsOfType<TorchBehaviour>() ;
-        foreach (var lightObject in lightObjects)
+        var foundTorches = FindObjectsOfType<TorchBehaviour>() ;
+        foreach (var torch in foundTorches)
         {
-            if (!lightObject.gameObject.activeInHierarchy || lightObject.LightObject == null)
+            if (!torch.gameObject.activeInHierarchy || torch.LightObject == null)
                 continue;
             
-            _torchBehaviours.Add(lightObject);
+            _torchBehaviours.Add(torch);
         }
 
         StartCoroutine(LazySortRoutine());
@@ -58,6 +58,8 @@ public class LightCullingSystem : MonoBehaviour
                 torchBehaviour.LightObject.renderMode = isImportant
                     ? LightRenderMode.ForcePixel 
                     : LightRenderMode.ForceVertex;
+
+                //torchBehaviour.LightObject.enabled = isImportant;
                 
                 yield return new WaitForEndOfFrame();
             }
@@ -70,7 +72,7 @@ public class LightCullingSystem : MonoBehaviour
 
     private float CountDistanceMagnitude(Component torchBehaviour)
     {
-        var offset = _playerTransform.position - torchBehaviour.transform.position;
+        var offset = _cameraVR.position - torchBehaviour.transform.position;
 
         return offset.sqrMagnitude;
     }
