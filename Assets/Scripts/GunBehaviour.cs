@@ -43,10 +43,16 @@ public class GunBehaviour : MonoBehaviour
     protected float shootingSpeed = 150f;
     
     [SerializeField]
+    protected float bullets = 5f;
+    
+    [SerializeField]
     private LayerMask hittableLayers;
     
     [SerializeField]
     private List<ImpactParticle> impactParticles;
+    
+    [SerializeField]
+    private AudioClip missingBulletsSound;
     
     protected AudioSource gunAudioSource;
     protected float currentGunScatter;
@@ -81,6 +87,13 @@ public class GunBehaviour : MonoBehaviour
 
     public virtual void Shoot()
     {
+        if (bullets <= 0)
+        {
+            gunAudioSource.PlayOneShot(missingBulletsSound);
+            
+            return;
+        }
+
         gunAnimator.SetTrigger(ShootTrigger);
         gunAudioSource.Play();
         
@@ -97,6 +110,7 @@ public class GunBehaviour : MonoBehaviour
     
         currentGunScatter = maxGunScatter;
         muzzleFlash.Play();
+        bullets -= 1;
     }
 
     protected virtual IEnumerator SpawnTrail(TrailRenderer trail, Vector3 hitPoint, RaycastHit hit = default)
