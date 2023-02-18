@@ -7,12 +7,15 @@ public class LightCullingSystem : MonoBehaviour
 {
     private Transform _playerTransform;
     private List<TorchBehaviour> _torchBehaviours;
-
-    private const int MaxActiveLights = 8;
     
+    private bool _isInit;
+    
+    private const int MaxActiveLights = 8;
+
     private void Start()
     {
         _playerTransform = GameObject.FindWithTag("Player").transform;
+        _torchBehaviours = new List<TorchBehaviour>();
         
         var lightObjects = FindObjectsOfType<TorchBehaviour>() ;
         foreach (var lightObject in lightObjects)
@@ -22,10 +25,16 @@ public class LightCullingSystem : MonoBehaviour
             
             _torchBehaviours.Add(lightObject);
         }
+
+        StartCoroutine(LazySortRoutine());
+        _isInit = true;
     }
 
     private void OnEnable()
     {
+        if (!_isInit)
+            return;
+        
         StartCoroutine(LazySortRoutine());
     }
 
@@ -40,13 +49,14 @@ public class LightCullingSystem : MonoBehaviour
             var activeLights = 0;
             foreach (var torchBehaviour in _torchBehaviours)
             {
-                torchBehaviour.LightObject.renderMode = 
-                    (torchBehaviour.IsLit && activeLights <= MaxActiveLights) 
-                        ? LightRenderMode.ForcePixel 
-                        : LightRenderMode.ForceVertex;
-            
-                activeLights += 1;
-
+                var isImportant = (torchBehaviour.IsLit && activeLights <= MaxActiveLights);
+                if (isImportant)
+                    activeLights += 1;
+                
+                torchBehaviour.LightObject.renderMode = isImportant
+                    ? LightRenderMode.ForcePixel 
+                    : LightRenderMode.ForceVertex;
+                
                 yield return new WaitForEndOfFrame();
             }
             

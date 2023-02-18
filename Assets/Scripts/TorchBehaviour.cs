@@ -22,7 +22,7 @@ public class TorchBehaviour : MonoBehaviour
 
     public bool IsLit { get; private set; } = true;
 
-    private void Start()
+    private void Awake()
     {
         _totalVerticalBulbScale = bulbEmpty.localScale.y;
         
