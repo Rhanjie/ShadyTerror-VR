@@ -9,8 +9,7 @@ namespace Characters
 {
     public class Enemy : Character
     {
-        [SerializeField] protected AudioClip laugh;
-        [SerializeField] protected AudioClip scream;
+        [SerializeField] protected Transform attackPoint;
         [SerializeField] protected Transform transformToRotate;
         [SerializeField] protected Transform waypointsParent;
         [SerializeField] protected Animator animator;
@@ -41,6 +40,7 @@ namespace Characters
         protected static readonly int DissolvePowerID = Shader.PropertyToID("_DissolvePower");
         protected static readonly int VelocityHash = Animator.StringToHash("Velocity");
         protected static readonly int AttackHash = Animator.StringToHash("Attack");
+        protected static readonly int DeadHash = Animator.StringToHash("Dead");
 
         protected override void Start()
         {
@@ -197,10 +197,11 @@ namespace Characters
             if (_attackCoroutineObject != null)
                 StopCoroutine(_attackCoroutineObject);
             
-            audioManager.PlaySoundWithRandomPitch("scream", 0.9f, 1.1f);
-            AddImpact(-transform.forward, 50f);
+            audioManager.PlaySoundWithRandomPitch("Scream", 0.9f, 1.1f);
 
-            yield return DissolveRoutine(2);
+            animator.SetTrigger(DeadHash);
+
+            yield return DissolveRoutine(3);
 
             Destroy(gameObject);
         }
@@ -208,7 +209,7 @@ namespace Characters
         public void AddImpact(Vector3 direction, float force){
             
             if (direction.y < 0)
-                direction.y = -direction.y; // reflect down force on the ground
+                direction.y = -direction.y; //Reflect down force on the ground
             
             _impact += (direction.normalized * force) / mass;
         }

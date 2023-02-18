@@ -33,7 +33,7 @@ public class BulbDetector : MonoBehaviour
 
     private void IfTouchAnotherLight(Collider other)
     {
-        if (other.gameObject.CompareTag("LightBulb") && !_torchBehaviour.IsLit)
+        if (!_torchBehaviour.IsLit && (other.gameObject.CompareTag("LightBulb") || other.gameObject.CompareTag("Fire")))
         {
             var foundTorchBehaviour = other.transform.GetComponentInParent<TorchBehaviour>();
             if (foundTorchBehaviour == null || !foundTorchBehaviour.IsLit || foundTorchBehaviour == _torchBehaviour)
