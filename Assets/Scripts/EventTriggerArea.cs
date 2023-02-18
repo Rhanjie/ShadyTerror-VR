@@ -18,8 +18,10 @@ public class EventTriggerArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Player"))
+            return;
+        
         _collider.enabled = false;
-
         actions.Invoke();
     }
 }
