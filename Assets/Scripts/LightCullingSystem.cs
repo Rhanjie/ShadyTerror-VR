@@ -6,7 +6,7 @@ using UnityEngine;
 public class LightCullingSystem : MonoBehaviour
 {
     private Transform _cameraVR;
-    private List<TorchBehaviour> _torchBehaviours;
+    private List<Light> _lights;
     
     private bool _isInit;
     
@@ -15,16 +15,7 @@ public class LightCullingSystem : MonoBehaviour
     private void Start()
     {
         _cameraVR = GameObject.FindWithTag("MainCamera").transform;
-        _torchBehaviours = new List<TorchBehaviour>();
-        
-        var foundTorches = FindObjectsOfType<TorchBehaviour>() ;
-        foreach (var torch in foundTorches)
-        {
-            if (!torch.gameObject.activeInHierarchy || torch.LightObject == null)
-                continue;
-            
-            _torchBehaviours.Add(torch);
-        }
+        _lights = FindObjectsOfType<Light>(true).ToList();
 
         StartCoroutine(LazySortRoutine());
         _isInit = true;
@@ -42,25 +33,24 @@ public class LightCullingSystem : MonoBehaviour
     {
         while (gameObject.activeInHierarchy)
         {
-            _torchBehaviours = _torchBehaviours.OrderBy(CountDistanceMagnitude).ToList();
+            _lights = _lights.OrderBy(CountDistanceMagnitude).ToList();
 
             yield return new WaitForEndOfFrame();
         
             var activeLights = 0;
-            foreach (var torchBehaviour in _torchBehaviours)
+            foreach (var lightObject in _lights)
             {
                 //TODO: Ignore far lights behind player
                 
-                var isImportant = (torchBehaviour.IsLit && activeLights <= MaxActiveLights);
+                var isImportant = (lightObject.isActiveAndEnabled && activeLights <= MaxActiveLights);
                 if (isImportant)
                     activeLights += 1;
                 
-                torchBehaviour.LightObject.renderMode = isImportant
+                lightObject.renderMode = isImportant
                     ? LightRenderMode.ForcePixel 
                     : LightRenderMode.ForceVertex;
 
-                //torchBehaviour.LightObject.enabled = isImportant;
-                
+                //lightObject.enabled = isImportant;
                 yield return new WaitForEndOfFrame();
             }
             
