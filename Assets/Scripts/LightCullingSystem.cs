@@ -49,6 +49,8 @@ public class LightCullingSystem : MonoBehaviour
             var activeLights = 0;
             foreach (var torchBehaviour in _torchBehaviours)
             {
+                //TODO: Ignore far lights behind player
+                
                 var isImportant = (torchBehaviour.IsLit && activeLights <= MaxActiveLights);
                 if (isImportant)
                     activeLights += 1;
