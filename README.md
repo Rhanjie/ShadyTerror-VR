@@ -1,6 +1,6 @@
-# Waterdeep-VR
+# ShadyTerror - VR
 
-Using unity version: 2021.3.0f1
+Using unity version: 2022.1.24f1
 
 ## Installation (for windows)
 
