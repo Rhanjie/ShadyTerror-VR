@@ -348,7 +348,7 @@ MonoBehaviour:
   bulbRenderer: {fileID: 7873611315773613450}
   lightMaterial: {fileID: 2100000, guid: 18e30171099266044bdf4eadd4fcde31, type: 2}
   unlightMaterial: {fileID: 2100000, guid: bedff8f9bda2fc4429cf6e1a3754c74c, type: 2}
-  enabledOnStart: 1
+  enabledOnStart: 0
   ignoreWickBurning: 1
 --- !u!65 &7873611316033166365
 BoxCollider:
