@@ -48,8 +48,8 @@ public class EndGameLogic : MonoBehaviour
         audioManager.PlaySound("Monster");
         yield return new WaitForSeconds(1);
         
-        yield return TextFadeIn(canvasText1, "To be continued...", 2f);
-        yield return TextFadeIn(canvasText2, "Thank you for playing this game!", 1f);
+        //yield return TextFadeIn(canvasText1, "To be continued...", 2f);
+        //yield return TextFadeIn(canvasText2, "Thank you for playing this game!", 1f);
         
         yield return new WaitForSeconds(5);
         

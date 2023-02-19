@@ -33,12 +33,12 @@ Transform:
   m_GameObject: {fileID: 40016817990468233}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0.298, z: 1.128}
-  m_LocalScale: {x: 0.075, y: 0.075, z: 0.075}
+  m_LocalScale: {x: 0.074999996, y: 0.075, z: 0.075}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3578701580960881869}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!54 &887001064724243936
 Rigidbody:
@@ -396,7 +396,7 @@ MonoBehaviour:
   - {fileID: 1085257299305507604}
 --- !u!95 &84470503
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -413,7 +413,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &8804206711469915297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1987,6 +1987,7 @@ MonoBehaviour:
   minGunScatter: 0
   maxGunScatter: 0.05
   shootingSpeed: 120
+  bullets: 5
   hittableLayers:
     serializedVersion: 2
     m_Bits: 1921
@@ -2001,6 +2002,7 @@ MonoBehaviour:
       m_Bits: 2048
     particleSystem: {fileID: 1338129302052414920, guid: 3b232b224795ee748af56b75192f591e,
       type: 3}
+  missingBulletsSound: {fileID: 8300000, guid: e0e027f432583f041854e97b3566da84, type: 3}
 --- !u!82 &1130112588
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2268,6 +2270,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8670164745636715378}
     m_Modifications:
     - target: {fileID: 4892005101411679268, guid: 1dee54f9447b75347988b5f652a71830,
@@ -2591,6 +2594,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dee54f9447b75347988b5f652a71830, type: 3}
 --- !u!4 &4668075694727712950 stripped
 Transform:
@@ -2603,6 +2607,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 8670164745636715378}
     m_Modifications:
     - target: {fileID: 459803975114323889, guid: 023e2dd8e0884184daaf0ef88ab5afdd,
@@ -2745,7 +2750,13 @@ PrefabInstance:
       propertyPath: m_CullingMask.m_Bits
       value: 55
       objectReference: {fileID: 0}
+    - target: {fileID: 7946614625343980641, guid: 023e2dd8e0884184daaf0ef88ab5afdd,
+        type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 023e2dd8e0884184daaf0ef88ab5afdd, type: 3}
 --- !u!4 &1722970033955448584 stripped
 Transform:

@@ -229,7 +229,7 @@ Transform:
   - {fileID: 1597477400}
   - {fileID: 2554138297807880950}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &995941016582502119
 MonoBehaviour:
@@ -558,7 +558,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &397544449740934654
 MonoBehaviour:
